@@ -1,0 +1,13 @@
+package com.jessenerio.email_service.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class Website {
+    @GetMapping("/")
+    public String index(Model model) {
+        return "index";
+    }
+}
