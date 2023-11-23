@@ -1,0 +1,24 @@
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+>
+<div layout:fragment="body">
+    <div id="scheduler">
+        <form>
+            <label>Date:</label>
+            <input type="date"/>
+
+            <label>Tags:</label>
+            <input type="tags" name="tags" required><br>
+
+            <label>Subject:</label>
+            <input type="text" name="subject" required><br>
+
+            <label>Body:</label>
+            <textarea rows="4" cols="50" required></textarea><br>
+            <button type="submit">Schedule</button>
+        </form>
+    </div>
+</div>
+</html>

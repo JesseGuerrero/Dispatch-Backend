@@ -1,0 +1,31 @@
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+>
+<div layout:fragment="body">
+    <div id="write-email">
+        <div>
+            <h2>Written emails list</h2>
+            <ol id="written-emails-list">
+                <li><a>basic-email</a></li>
+                <li><a>daily course outline</a></li>
+                <li><a>news outline</a></li>
+            </ol>
+        </div>
+        <div>
+            <form action="/write" method="post">
+                <label>Email name:</label>
+                <input type="text" required><br>
+
+                <label>Subject:</label>
+                <input type="text" required><br>
+
+                <textarea rows="40" cols="30" placeholder="Email Body" required></textarea><br>
+
+                <button type="submit">add</button>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

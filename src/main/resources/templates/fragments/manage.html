@@ -1,0 +1,44 @@
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+>
+<div layout:fragment="body">
+    <div id="subscriber-manager">
+        <div>
+            <h2>Subscriber list</h2>
+            <ol id="subscription-list">
+                <li><a>Jesse: Jesse@gmail.com</a></li>
+                <li><a>John: John@gmail.com</a></li>
+                <li><a>Jane: Jane@gmail.com</a></li>
+            </ol>
+        </div>
+        <div>
+            <h2>Subscriber details</h2>
+            <strong>Tags</strong>
+            <textarea>general, dev, coder</textarea>
+            <strong>Courses</strong>
+            <textarea>how to start a </textarea>
+        </div>
+        <div>
+            <h2>Subscriber controls</h2>
+            <form>
+                <label>Add tags:</label>
+                <input type="text" required>
+                <button type="submit">Submit</button>
+            </form>
+            <form>
+                <label>Delete tags:</label>
+                <input type="text" required>
+                <button type="submit">Submit</button>
+            </form>
+            <form>
+                <label>Add courses:</label>
+                <input type="text" required>
+                <button type="submit">Submit</button>
+            </form>
+            <button type="button">Delete subscriber</button>
+        </div>
+    </div>
+</div>
+</html>

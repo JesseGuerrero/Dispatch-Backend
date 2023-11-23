@@ -1,0 +1,20 @@
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+>
+<div layout:fragment="body">
+    <form action="/send" method="post">
+        <label>Tags:</label>
+        <input type="tags" name="tags" required><br>
+
+        <label>Subject:</label>
+        <input type="text" name="subject" required><br>
+
+        <label>Body:</label>
+        <textarea id="message" name="message" rows="4" cols="50" required></textarea><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</html>

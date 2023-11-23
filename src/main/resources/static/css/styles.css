@@ -1,5 +1,47 @@
 /* styles.css */
 
+
+html {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    flex: 1;
+    margin-bottom: 60px; /* Adjust the margin-bottom to accommodate the footer height */
+}
+
+footer {
+    position: sticky;
+    bottom: 0;
+    background-color: #f1f1f1; /* Set a background color for the footer */
+    padding: 10px;
+}
+
+#subscriber-manager {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#subscriber-manager > div {
+    width: 33%; /* Adjust the width as needed */
+}
+
+#write-email {
+    display: flex;
+    justify-content: space-between;
+}
+
+#write-email > div {
+    width: 48%; /* Adjust the width as needed */
+}
+
+#write-email textarea {
+    width: 80%; /* Adjust the width as needed */
+}
+
 body {
     background-color: #1e1e1e;
     color: #fff;
@@ -68,10 +110,6 @@ ol {
 
 ol li {
     margin-bottom: 10px;
-}
-
-textarea {
-    width: 100%;
 }
 
 footer {

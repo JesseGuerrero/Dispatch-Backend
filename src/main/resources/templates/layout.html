@@ -1,27 +1,32 @@
 <!-- src/main/resources/templates/layout.html -->
 
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Mail Service</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
-<body>
-<nav>
-    <img th:src="@{/images/icon.png}" alt="Navigation Icon" class="nav-icon">
-    <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/broadcast">Send</a>
-        <a href="/scheduler">Scheduler</a>
-        <a href="/write">Write</a>
-        <a href="/subscribers">Manage subscribers</a>
-    </div>
-</nav>
-<div th:replace="${content}"></div>
+<header>
+    <nav>
+        <img th:src="@{/images/icon.png}" alt="Navigation Icon" class="nav-icon">
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/broadcast">Send</a>
+            <a href="/scheduler">Scheduler</a>
+            <a href="/write">Write</a>
+            <a href="/manage">Manage subscribers</a>
+            <a href="/test">Test</a>
+        </div>
+    </nav>
+</header>
+<body layout:fragment="body">
+</body>
 <footer>
     Free & open source under the MIT license.
 </footer>
-</body>
 </html>
