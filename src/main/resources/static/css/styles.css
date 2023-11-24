@@ -42,6 +42,15 @@ footer {
     width: 80%; /* Adjust the width as needed */
 }
 
+#scheduler {
+    display: flex;
+    justify-content: space-between;
+}
+
+#scheduler > div {
+    width: 48%; /* Adjust the width as needed */
+}
+
 body {
     background-color: #1e1e1e;
     color: #fff;

@@ -5,20 +5,30 @@
 >
 <div layout:fragment="body">
     <div id="scheduler">
-        <form>
-            <label>Date:</label>
-            <input type="date"/>
+        <div>
+            <h2>Scheduled broadcasts</h2>
+            <ol id="broadcast-list">
+                <li><a>2019-01-01: email1</a></li>
+                <li><a>2019-01-02: email2</a></li>
+                <li><a>2019-01-03: email3</a></li>
+            </ol>
+        </div>
+        <div>
+            <form>
+                <label>Date:</label>
+                <input type="date"/>
 
-            <label>Tags:</label>
-            <input type="tags" name="tags" required><br>
+                <label>Tags:</label>
+                <input type="tags" name="tags" required><br>
 
-            <label>Subject:</label>
-            <input type="text" name="subject" required><br>
+                <label>Subject:</label>
+                <input type="text" name="subject" required><br>
 
-            <label>Body:</label>
-            <textarea rows="4" cols="50" required></textarea><br>
-            <button type="submit">Schedule</button>
-        </form>
+                <label>Body:</label>
+                <textarea rows="4" cols="50" required></textarea><br>
+                <button type="submit">Schedule</button>
+            </form>
+        </div>
     </div>
 </div>
 </html>
