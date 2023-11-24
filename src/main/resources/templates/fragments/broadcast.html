@@ -3,7 +3,11 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layout}">
 >
+
 <div layout:fragment="body">
+    <script>
+
+    </script>
     <form id="broadcaster" method="post">
         <label>Tags:</label>
         <input type="tags" name="tags" required><br>
@@ -14,38 +18,9 @@
         <label>Body:</label>
         <textarea id="message" name="message" rows="4" cols="50" required></textarea><br>
 
-        <button type="submit">Submit</button>
+        <button type="button" onclick="(function() {postForm('/broadcast', 'broadcaster')})()">Submit</button>
     </form>
 </div>
 
-<!--<script>-->
-<!--        // Add event listener to the form-->
-<!--        document.addEventListener('DOMContentLoaded', function() {-->
-<!--            // Add event listener to the form-->
-<!--            document.getElementById('broadcaster').addEventListener('submit', function(event) {-->
-<!--                event.preventDefault(); // Prevent the default form submission-->
-<!--                console.log("test")-->
 
-<!--                // Get form data-->
-<!--                var formData = new FormData(event.target);-->
-
-<!--                // Make a POST request to the server-side endpoint-->
-<!--                fetch('/broadcast', {-->
-<!--                    method: 'POST',-->
-<!--                    body: formData-->
-<!--                })-->
-<!--                    .then(response => response.json())-->
-<!--                    .then(data => {-->
-<!--                        // Handle the response from the server-->
-<!--                        console.log(data);-->
-<!--                        alert('Email sent successfully!');-->
-<!--                    })-->
-<!--                    .catch(error => {-->
-<!--                        // Handle any errors-->
-<!--                        console.error('Error:', error);-->
-<!--                        alert('Error sending email.');-->
-<!--                    });-->
-<!--            });-->
-<!--        });-->
-<!--</script>-->
 </html>

@@ -1,40 +1,76 @@
 package com.jessenerio.email_service.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class WebAPI {
+    @PostMapping("/")
+    @ResponseBody
+    public String error(HttpServletRequest request) {
+        System.out.println("Unsupported request: " + request.getRequestURI());
+        return "unsupported";
+    }
     @PostMapping("/broadcast")
-    public String broadcast(Model model) {
-        System.out.println("Broadcasting");
-        return "fragments/broadcast";
+    @ResponseBody
+    public String broadcast(HttpServletRequest request) {
+        for(String key : request.getParameterMap().keySet())
+            System.out.println(key + ": " + request.getParameter(key));
+        return "success";
     }
 
-    @PostMapping("/manage")
-    public String manage(Model model) {
-        System.out.println("Managing");
-        return "fragments/manage";
+    @PostMapping("/add-tag")
+    @ResponseBody
+    public String addTag(HttpServletRequest request) {
+        for(String key : request.getParameterMap().keySet())
+            System.out.println(key + ": " + request.getParameter(key));
+        return "success";
     }
 
-    @PostMapping("/scheduler")
-    public String schedule(Model model) {
-        System.out.println("Scheduling");
-        return "fragments/scheduler";
+    @PostMapping("/delete-tags")
+    @ResponseBody
+    public String deleteTags(HttpServletRequest request) {
+        for(String key : request.getParameterMap().keySet())
+            System.out.println(key + ": " + request.getParameter(key));
+        return "success";
     }
 
-    @PostMapping("/test")
-    public String test(Model model) {
-        System.out.println("Testing");
-        return "fragments/test";
+    @PostMapping("/add-courses")
+    @ResponseBody
+    public String addCourses(HttpServletRequest request) {
+        for(String key : request.getParameterMap().keySet())
+            System.out.println(key + ": " + request.getParameter(key));
+        return "success";
     }
 
-    @PostMapping("/write")
-    public String write(Model model) {
-        System.out.println("Writing");
-        return "fragments/write";
+    @PostMapping("/schedule")
+    @ResponseBody
+    public String schedule(HttpServletRequest request) {
+        for(String key : request.getParameterMap().keySet())
+            System.out.println(key + ": " + request.getParameter(key));;
+        return "success";
+    }
+
+    @PostMapping("/add-subscriber")
+    @ResponseBody
+    public String addSubscriber(HttpServletRequest request) {
+        for(String key : request.getParameterMap().keySet())
+            System.out.println(key + ": " + request.getParameter(key));
+        return "success";
+    }
+
+    @PostMapping("/save-email")
+    @ResponseBody
+    public String write(HttpServletRequest request) {
+        for(String key : request.getParameterMap().keySet())
+            System.out.println(key + ": " + request.getParameter(key));
+        return "success";
     }
 }

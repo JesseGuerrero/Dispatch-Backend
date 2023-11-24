@@ -14,7 +14,7 @@
             </ol>
         </div>
         <div>
-            <form>
+            <form id="schedulerForm" method="post">
                 <label>Date:</label>
                 <input type="date"/>
 
@@ -26,7 +26,7 @@
 
                 <label>Body:</label>
                 <textarea rows="4" cols="50" required></textarea><br>
-                <button type="submit">Schedule</button>
+                <button type="button" onclick="(function() {postForm('/schedule', 'schedulerForm')})()">Schedule</button>
             </form>
         </div>
     </div>

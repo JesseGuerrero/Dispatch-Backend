@@ -14,7 +14,7 @@
             </ol>
         </div>
         <div>
-            <form action="/write" method="post">
+            <form id="emailForm" method="post">
                 <label>Email name:</label>
                 <input type="text" required><br>
 
@@ -23,7 +23,7 @@
 
                 <textarea rows="40" cols="30" placeholder="Email Body" required></textarea><br>
 
-                <button type="submit">add</button>
+                <button type="button" onclick="(function() {postForm('/save-email', 'emailForm')})()">add</button>
             </form>
         </div>
     </div>

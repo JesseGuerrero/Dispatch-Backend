@@ -22,22 +22,22 @@
         </div>
         <div>
             <h2>Subscriber controls</h2>
-            <form>
+            <form id="addTags" method="post">
                 <label>Add tags:</label>
                 <input type="text" required>
-                <button type="submit">Submit</button>
+                <button type="button" onclick="(function() {postForm('/add-tag', 'addTags')})()">Submit</button>
             </form>
-            <form>
+            <form id="deleteTags" method="post">
                 <label>Delete tags:</label>
                 <input type="text" required>
-                <button type="submit">Submit</button>
+                <button type="button" onclick="(function() {postForm('/delete-tags', 'deleteTags')})()">Submit</button>
             </form>
-            <form>
+            <form id="addCourses" method="post">
                 <label>Add courses:</label>
                 <input type="text" required>
-                <button type="submit">Submit</button>
+                <button type="button" onclick="(function() {postForm('/add-courses', 'addCourses')})()">Submit</button>
             </form>
-            <button type="button">Delete subscriber</button>
+            <button type="button" onclick="(function() {deleteSubscriber('test@gmail.com')})()">Delete subscriber</button>
         </div>
     </div>
 </div>
