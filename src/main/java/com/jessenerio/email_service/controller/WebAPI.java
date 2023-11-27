@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -20,9 +21,12 @@ public class WebAPI {
     }
     @PostMapping("/broadcast")
     @ResponseBody
-    public String broadcast(HttpServletRequest request) {
-        for(String key : request.getParameterMap().keySet())
-            System.out.println(key + ": " + request.getParameter(key));
+    public String broadcast(
+            @RequestParam String tags,
+            @RequestParam String subject,
+            @RequestParam String message
+    ) {
+        System.out.println(tags + " " + subject + " " + message);
         return "success";
     }
 
