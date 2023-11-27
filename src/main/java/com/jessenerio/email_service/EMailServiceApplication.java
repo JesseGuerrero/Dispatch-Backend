@@ -1,6 +1,7 @@
 package com.jessenerio.email_service;
 
 import com.jessenerio.email_service.service.EMailService;
+import com.jessenerio.email_service.util.tests.CreateCustomer;
 import com.jessenerio.email_service.util.tests.SendEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +18,7 @@ public class EMailServiceApplication {
     public static void main(String[] args) {
         initConfigFile();
         ApplicationContext context = SpringApplication.run(EMailServiceApplication.class, args);
-        context.getBean(SendEmail.class).testBroadcast();
+//        context.getBean(CreateCustomer.class).testCreateCustomer();
     }
 
     private static void initConfigFile() {
