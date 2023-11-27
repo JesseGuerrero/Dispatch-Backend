@@ -17,7 +17,7 @@ public class EMailServiceApplication {
 //    private EMailService emailService;
 
     public static void main(String[] args) {
-//        initConfigFile();
+        initConfigFile();
         SpringApplication.run(EMailServiceApplication.class, args);
     }
 
@@ -25,15 +25,25 @@ public class EMailServiceApplication {
         try {
             Path configFilePath = Paths.get("src/main/resources/config.properties");
             if (!configFilePath.toFile().exists()) {
-                String content = String.format("#Required config\n" +
-                        "spring.mail.host=[SMTP]\n" +
-                        "spring.mail.port=[SMTP PORT] \n" +
-                        "spring.mail.username=[SMTP EMAIL ADDRESS]\n" +
-                        "spring.mail.password=[SMTP PASSWORD]\n" +
-                        "spring.mail.transport.protocol=smtp\n" +
-                        "spring.mail.properties.mail.smtp.auth=true\n" +
-                        "spring.mail.properties.mail.smtp.starttls.enable=true\n" +
-                        "spring.mail.properties.mail.smtp.ssl.enable=true"
+                String content = String.format("" +
+                    "#E-Mail Configuration\n" +
+                    "spring.mail.host=smtp.example.com\n" +
+                    "spring.mail.port=465\n" +
+                    "spring.mail.username=contact@gmail.com\n" +
+                    "spring.mail.password=password\n" +
+                    "spring.mail.transport.protocol=smtp\n" +
+                    "spring.mail.properties.mail.smtp.auth=true\n" +
+                    "spring.mail.properties.mail.smtp.starttls.enable=true\n" +
+                    "spring.mail.properties.mail.smtp.ssl.enable=true\n" +
+                    "\n" +
+                    "#MongoDB Configuration\n" +
+                    "spring.data.mongodb.host=localhost\n" +
+                    "spring.data.mongodb.port=27017\n" +
+                    "spring.data.mongodb.database=email-service\n" +
+                    "spring.data.mongodb.username=\n" +
+                    "spring.data.mongodb.password=\n" +
+                    "\n" +
+                    "spring.web.resources.add-mappings=true\n"
                 );
                 FileWriter writer = new FileWriter(configFilePath.toFile());
                 writer.write(content);
