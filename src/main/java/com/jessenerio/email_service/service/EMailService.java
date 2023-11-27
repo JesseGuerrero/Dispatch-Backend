@@ -12,15 +12,12 @@ public class EMailService {
 
     private JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.username}")
-    String fromAddress;
-
     @Autowired
     public EMailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendEmail(String toAddress, Email email) {
+    public void sendEmail(String fromAddress, String toAddress, Email email) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromAddress);
         message.setTo(toAddress);

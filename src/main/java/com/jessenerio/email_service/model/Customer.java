@@ -6,8 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -15,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "customers") // Use @Document annotation for MongoDB collection
-public class Customer {
+public class Customer implements UserDetails {
 
     @Id // Use @Id annotation for MongoDB document identifier
     private String id;
@@ -46,5 +51,44 @@ public class Customer {
         this.scheduledEmails = new ArrayList<>();
         this.courses = new ArrayList<>();
         this.emailTemplates = new ArrayList<>();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // You can customize this method to return the customer's roles or authorities
+        // For simplicity, let's assume all customers have a single role "ROLE_USER"
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    // Other UserDetails methods...
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // Assuming accounts never expire
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // Assuming accounts are never locked
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // Assuming credentials never expire
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true; // Assuming all accounts are enabled
     }
 }

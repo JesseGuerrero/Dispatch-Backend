@@ -26,6 +26,10 @@ public class EMailServiceApplication {
             Path configFilePath = Paths.get("src/main/resources/config.properties");
             if (!configFilePath.toFile().exists()) {
                 String content = String.format("" +
+                    "# application.properties\n" +
+                    "spring.security.user.name=user\n" +
+                    "spring.security.user.password=generated-password\n" +
+                    "\n" +
                     "#E-Mail Configuration\n" +
                     "spring.mail.host=smtp.example.com\n" +
                     "spring.mail.port=465\n" +

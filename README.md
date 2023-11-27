@@ -122,7 +122,20 @@ Subscribers collection, subscriber document:<br>
 }
 ```
 <br><br>
-#3: Create API<br>
+
+#5 Create user authentication with each user being a customer<br>
+-Filter homepage, signup & login only clickable by being logged in with Spring security<br>
+     -Make every other page redirect to login
+-Create Sign up page for creating customers<br>
+-Create Login page with signup link<br>
+-Make Spring use Mongo Customers to login<br> 
+-Create Forgot password page<br>
+-Create Reset password page<br>
+<br><br>
+
+#6 Update Customer Repository to extend MongoRepository<br><br>
+
+#7: Create API<br>
 -Subscribe endpoint<br>
 -Unsubscribe endpoint<br>
 -Add tags endpoint<br>
