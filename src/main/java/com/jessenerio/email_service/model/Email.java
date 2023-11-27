@@ -10,8 +10,4 @@ import lombok.NoArgsConstructor;
 public class Email {
     String subject;
     String body;
-
-    public void sendEmail(String toAddress) {
-        System.out.println("Sending email to " + toAddress + " with subject " + subject + " and body " + body);
-    }
 }

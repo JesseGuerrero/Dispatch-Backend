@@ -1,9 +1,11 @@
 package com.jessenerio.email_service;
 
+import com.jessenerio.email_service.service.EMailService;
+import com.jessenerio.email_service.util.tests.SendEmail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,13 +14,10 @@ import java.nio.file.Paths;
 
 @SpringBootApplication
 public class EMailServiceApplication {
-//
-//    @Autowired
-//    private EMailService emailService;
-
     public static void main(String[] args) {
         initConfigFile();
-        SpringApplication.run(EMailServiceApplication.class, args);
+        ApplicationContext context = SpringApplication.run(EMailServiceApplication.class, args);
+        context.getBean(SendEmail.class).testBroadcast();
     }
 
     private static void initConfigFile() {
@@ -54,15 +53,5 @@ public class EMailServiceApplication {
         }
     }
 
-//    @Override
-//    public void run(String... args) {
-//        // Example: Sending an email when the application starts
-//        String to = "jessework@proton.me";
-//        String subject = "Test Subject";
-//        String body = "Hello, this is a test email.";
-//
-//        emailService.sendEmail(to, subject, body);
-//
-//        System.out.println("Email sent successfully!");
-//    }
+
 }

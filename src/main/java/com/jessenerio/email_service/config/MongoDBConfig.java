@@ -32,7 +32,6 @@ public class MongoDBConfig {
 
     @Bean
     public MongoClient mongoClient() {
-        System.out.println(mongoUsername + " " + mongoPassword + " " + mongoHost + " " + mongoPort + " " + mongoDatabase);
         String connectionString;
         if (mongoUsername.equals("") || mongoPassword.equals(""))
             connectionString = String.format("mongodb://%s:%d/%s", mongoHost, mongoPort, mongoDatabase);
