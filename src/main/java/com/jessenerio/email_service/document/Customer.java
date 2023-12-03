@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,6 @@ public class Customer implements UserDetails {
     private String username;
     private String email;
     private String password;
-    private Boolean isPremium;
 
     private List<EmailContact> emailList;
     private List<Tag> tags;
@@ -44,7 +44,6 @@ public class Customer implements UserDetails {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.isPremium = true;
 
         this.emailList = new ArrayList<>();
         this.tags = new ArrayList<>();
@@ -55,9 +54,12 @@ public class Customer implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // You can customize this method to return the customer's roles or authorities
-        // For simplicity, let's assume all customers have a single role "ROLE_USER"
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        Collection<? extends GrantedAuthority> authorities = Arrays.asList(
+                () -> "ROLE_USER",
+                () -> "ROLE_MEMBER",
+                () -> "ROLE_ADMIN"
+        );
+        return authorities;
     }
 
     @Override

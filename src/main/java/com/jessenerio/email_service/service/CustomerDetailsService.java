@@ -47,6 +47,10 @@ public class CustomerDetailsService implements UserDetailsManager {
         return customerRepository.existsByUsername(username);
     }
 
+    public boolean isDuplicateUser(String username, String email) {
+        return customerRepository.existsByUsername(username) || customerRepository.existsByEmail(email);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return customerRepository.findByUsername(username)

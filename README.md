@@ -129,6 +129,8 @@ TODO<br>
 <s>     -Make every other page redirect to login</s><br><br>
 
 -Test all security updates<br>
+-Create email and username unique on register<br>
+-Check if CustomErrorController is needed<br>
 <br><br>
 
 #6 Create user authentication part 2<br>

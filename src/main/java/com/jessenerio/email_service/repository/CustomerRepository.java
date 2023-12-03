@@ -37,6 +37,11 @@ public class CustomerRepository {
         return mongoTemplate.exists(query, Customer.class, "customers");
     }
 
+    public boolean existsByEmail(String email) {
+        Query query = new Query(Criteria.where("username").is(email));
+        return mongoTemplate.exists(query, Customer.class, "customers");
+    }
+
     public Customer updateCustomer(String id, Customer customer) {
         Customer existingCustomer = getCustomerById(id);
 
