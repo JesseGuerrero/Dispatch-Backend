@@ -1,11 +1,8 @@
-package com.jessenerio.email_service.controller;
+package com.jessenerio.email_service.web;
 
-import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.thymeleaf.spring6.SpringTemplateEngine;
 
 @Controller
 public class Website {
