@@ -1,6 +1,6 @@
 package com.jessenerio.email_service.service;
 
-import com.jessenerio.email_service.model.Customer;
+import com.jessenerio.email_service.document.Customer;
 import com.jessenerio.email_service.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

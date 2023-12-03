@@ -13,3 +13,9 @@ function deleteSubscriber(email) {
     request.open("POST", "/delete-subscriber", true);
     request.send(formData);
 }
+
+function logout() {
+    let request = new XMLHttpRequest();
+    request.open("POST", "/logout", true);
+    request.send();
+}

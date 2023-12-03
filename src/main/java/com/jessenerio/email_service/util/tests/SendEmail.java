@@ -1,7 +1,7 @@
 package com.jessenerio.email_service.util.tests;
 
 import com.jessenerio.email_service.service.EMailService;
-import com.jessenerio.email_service.model.Email;
+import com.jessenerio.email_service.document.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,9 +21,9 @@ public class SendEmail {
     public void testBroadcast() {
         System.out.println("Sending email...");
         // Example: Sending an email when the application starts
-        String toAddress = "jessework@proton.me";
+        String toAddress = "jesseguerrero1991@gmail.com";
         Email email = new Email(
-                "Test Subject",
+                "Test Subject \uD83D\uDE0E",
                 "Hello, this is a test email."
         );
 

@@ -124,6 +124,7 @@ Subscribers collection, subscriber document:<br>
 <br><br>
 
 #5 Create user authentication with each user being a customer<br>
+-Try https://github.com/aliyusahaboadam/Registration-and-Login-Application
 -Filter homepage, signup & login only clickable by being logged in with Spring security<br>
      -Make every other page redirect to login
 -Create Sign up page for creating customers<br>

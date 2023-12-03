@@ -18,7 +18,7 @@ public class EMailServiceApplication {
     public static void main(String[] args) {
         initConfigFile();
         ApplicationContext context = SpringApplication.run(EMailServiceApplication.class, args);
-//        context.getBean(CreateCustomer.class).testCreateCustomer();
+//        context.getBean(SendEmail.class).testBroadcast();
     }
 
     private static void initConfigFile() {

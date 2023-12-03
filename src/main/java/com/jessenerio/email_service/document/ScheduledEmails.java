@@ -1,4 +1,4 @@
-package com.jessenerio.email_service.model;
+package com.jessenerio.email_service.document;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

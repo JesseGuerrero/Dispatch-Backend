@@ -1,8 +1,7 @@
 package com.jessenerio.email_service.service;
 
-import com.jessenerio.email_service.model.Email;
+import com.jessenerio.email_service.document.Email;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;

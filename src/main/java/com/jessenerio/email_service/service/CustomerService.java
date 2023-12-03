@@ -1,6 +1,6 @@
 package com.jessenerio.email_service.service;
 
-import com.jessenerio.email_service.model.Customer;
+import com.jessenerio.email_service.document.Customer;
 import com.jessenerio.email_service.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
