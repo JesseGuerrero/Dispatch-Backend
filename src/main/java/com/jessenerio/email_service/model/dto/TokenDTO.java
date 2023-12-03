@@ -1,4 +1,4 @@
-package com.jessenerio.email_service.dto;
+package com.jessenerio.email_service.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

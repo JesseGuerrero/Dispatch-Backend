@@ -1,16 +1,16 @@
 package com.jessenerio.email_service.util.tests;
 
-import com.jessenerio.email_service.document.User;
-import com.jessenerio.email_service.service.UserDetailsService;
+import com.jessenerio.email_service.model.document.User;
+import com.jessenerio.email_service.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CreateUser {
-    UserDetailsService userDetailsService;
+    UserService userDetailsService;
 
     @Autowired
-    public CreateUser(UserDetailsService userDetailsService) {
+    public CreateUser(UserService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
     public void testCreateUser() {

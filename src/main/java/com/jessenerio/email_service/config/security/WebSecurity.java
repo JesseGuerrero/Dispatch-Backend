@@ -1,5 +1,6 @@
-package com.jessenerio.email_service.security;
+package com.jessenerio.email_service.config.security;
 
+import com.jessenerio.email_service.model.service.UserService;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,13 +25,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -44,13 +38,14 @@ public class WebSecurity {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    UserDetailsManager userDetailsManager;
+    UserService userService;
 
     @Bean
     public SecurityFilterChain publicSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .antMatchers("/", "/error", "/login", "/signup", "/images/*", "/css/*", "/js/*").permitAll()
+                        .antMatchers("/", "/error", "/login", "/signup",
+                                "/images/*", "/css/*", "/js/*", "/auth/*").permitAll()
                 )
                 .authorizeHttpRequests((authorize) -> {
                             try {
@@ -61,29 +56,27 @@ public class WebSecurity {
                             }
                         }
                 );
-        return http.build();
-    }
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((auth) -> auth
-                        .antMatchers("/auth/**").authenticated()
-                )
-                .csrf().disable()
-                .cors().disable()
-                .httpBasic().disable()
-                .oauth2ResourceServer((oauth2) ->
-                        oauth2.jwt((jwt) -> jwt.jwtAuthenticationConverter(jwtToUserConverter))
-                )
-                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-                );
-
 
         return http.build();
     }
+
+//    @Bean
+//    public SecurityFilterChain authenticationSecurityChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf().disable()
+//                .cors().disable()
+//                .httpBasic().disable()
+//                .oauth2ResourceServer((oauth2) ->
+//                        oauth2.jwt((jwt) -> jwt.jwtAuthenticationConverter(jwtToUserConverter))
+//                )
+//                .sessionManagement(
+//                        (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .exceptionHandling((exceptions) -> exceptions
+//                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+//                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+//                );
+//        return http.build();
+//    }
 
     @Bean
     @Primary
@@ -131,7 +124,7 @@ public class WebSecurity {
     DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(userDetailsManager);
+        provider.setUserDetailsService(userService);
         return provider;
     }
 }

@@ -1,6 +1,6 @@
-package com.jessenerio.email_service.security;
+package com.jessenerio.email_service.config.security;
 
-import com.jessenerio.email_service.document.User;
+import com.jessenerio.email_service.model.document.User;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

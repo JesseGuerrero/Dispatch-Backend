@@ -1,6 +1,6 @@
-package com.jessenerio.email_service.repository;
+package com.jessenerio.email_service.model.repository;
 
-import com.jessenerio.email_service.document.User;
+import com.jessenerio.email_service.model.document.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -52,6 +52,7 @@ public class UserRepository {
             existingUser.setScheduledEmails(user.getScheduledEmails());
             existingUser.setCourses(user.getCourses());
             existingUser.setEmailTemplates(user.getEmailTemplates());
+            existingUser.setPassword(user.getPassword());
 
             // Save the updated user
             mongoTemplate.save(existingUser, "users");

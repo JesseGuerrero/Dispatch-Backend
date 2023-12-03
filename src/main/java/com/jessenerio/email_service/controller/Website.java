@@ -1,4 +1,4 @@
-package com.jessenerio.email_service.web;
+package com.jessenerio.email_service.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -6,15 +6,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class Website {
-    @GetMapping("/broadcast")
-    public String broadcast(Model model) {
-        return "fragments/broadcast";
+
+    @GetMapping("/signup")
+    public String error(Model model) {
+        return "fragments/login";
     }
 
     @GetMapping("/")
     public String index(Model model) {
         return "fragments/index";
     }
+
+    @GetMapping("/broadcast")
+    public String broadcast(Model model) {
+        return "fragments/broadcast";
+    }
+
 
     @GetMapping("/manage")
     public String manage(Model model) {

@@ -1,7 +1,7 @@
 package com.jessenerio.email_service.util.tests;
 
-import com.jessenerio.email_service.service.EMailService;
-import com.jessenerio.email_service.document.Email;
+import com.jessenerio.email_service.model.service.EMailService;
+import com.jessenerio.email_service.model.document.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

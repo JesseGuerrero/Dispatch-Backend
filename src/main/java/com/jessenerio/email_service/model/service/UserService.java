@@ -1,18 +1,18 @@
-package com.jessenerio.email_service.service;
+package com.jessenerio.email_service.model.service;
 
-import com.jessenerio.email_service.document.User;
-import com.jessenerio.email_service.repository.UserRepository;
+import com.jessenerio.email_service.model.document.User;
+import com.jessenerio.email_service.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
-
-@Service
-public class UserDetailsService implements UserDetailsManager {
+@Service//Remember a service is a container of logic with no state
+public class UserService implements UserDetailsManager {
 
     @Autowired
     private UserRepository userRepository;
@@ -38,7 +38,21 @@ public class UserDetailsService implements UserDetailsManager {
 
     @Override
     public void changePassword(String oldPassword, String newPassword) {
+        // Get the currently authenticated user
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+
+        // Check if the old password matches the stored password
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new BadCredentialsException("Old password is incorrect");
+        }
+
+        // Encode and set the new password
+        String encodedNewPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedNewPassword);
+
+        // Save the updated user to the repository
+        userRepository.updateUser(user.getId(), user);
     }
 
     @Override
@@ -52,9 +66,6 @@ public class UserDetailsService implements UserDetailsManager {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(
-                        MessageFormat.format("username {0} not found", username)
-                ));
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username" + username + " not found"));
     }
 }

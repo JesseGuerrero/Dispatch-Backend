@@ -1,4 +1,4 @@
-package com.jessenerio.email_service.document;
+package com.jessenerio.email_service.model.document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +29,7 @@ public class User implements UserDetails {
     private String username;
     private String email;
     private String password;
+    private Collection<? extends GrantedAuthority>  role;
 
     private List<EmailContact> emailList;
     private List<Tag> tags;
@@ -42,6 +43,7 @@ public class User implements UserDetails {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = Arrays.asList(() -> "ROLE_USER");
 
         this.emailList = new ArrayList<>();
         this.tags = new ArrayList<>();
@@ -52,12 +54,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<? extends GrantedAuthority> authorities = Arrays.asList(
-                () -> "ROLE_USER",
-                () -> "ROLE_MEMBER",
-                () -> "ROLE_ADMIN"
-        );
-        return authorities;
+        return this.role;
     }
 
     @Override

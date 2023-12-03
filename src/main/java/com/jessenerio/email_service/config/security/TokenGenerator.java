@@ -1,7 +1,7 @@
-package com.jessenerio.email_service.security;
+package com.jessenerio.email_service.config.security;
 
-import com.jessenerio.email_service.document.User;
-import com.jessenerio.email_service.dto.TokenDTO;
+import com.jessenerio.email_service.model.document.User;
+import com.jessenerio.email_service.model.dto.TokenDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -1,4 +1,4 @@
-package com.jessenerio.email_service.web;
+package com.jessenerio.email_service.controller;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
