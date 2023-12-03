@@ -126,7 +126,12 @@ TODO<br>
 #5 Create user authentication with each user being a customer<br>
 <s>-Try https://github.com/aliyusahaboadam/Registration-and-Login-Application </s><br>
 <s>-Filter homepage, signup & login only clickable by being logged in with Spring security</s><br>
-<s>     -Make every other page redirect to login</s><br>
+<s>     -Make every other page redirect to login</s><br><br>
+
+-Test all security updates<br>
+<br><br>
+
+#6 Create user authentication part 2<br>
 -Create Sign up page for creating customers<br>
 -Create Login page with signup link<br>
 -Make Spring use Mongo Customers to login<br> 
@@ -134,17 +139,20 @@ TODO<br>
 -Create Reset password page<br>
 <br><br>
 
-#6 Update Customer Repository to extend MongoRepository<br><br>
+#7 Update Customer Repository to extend MongoRepository<br><br>
 
-#7: Create API<br>
+#8: Create API<br>
 -Subscribe endpoint<br>
 -Unsubscribe endpoint<br>
 -Add tags endpoint<br>
 -Add on-schedule end-point<br>
--Add to course endpoint<br>
-<br><br>
+-Add to course endpoint<br><br>
 
-#4: Create automation backend<br>
+#9: Create automation backend<br>
 -Send scheduled e-mails noon<br>
 -Check daily course e-mails midnight<br>
--Follow document stages<br>
+-Follow document stages<br><br>
+
+#10 Update to latest<br>
+-Update to latest Gradle<br>
+-Update to latest Spring boot and Java 21<br>
