@@ -45,14 +45,6 @@ public class WebSecurity {
     PasswordEncoder passwordEncoder;
     @Autowired
     UserDetailsManager userDetailsManager;
-    private class CustomAccessDeniedHandler implements AccessDeniedHandler {
-        @Override
-        public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e)
-                throws IOException {
-            // Do some custom logic here
-            response.sendRedirect("/error");
-        }
-    }
 
     @Bean
     public SecurityFilterChain publicSecurityFilterChain(HttpSecurity http) throws Exception {

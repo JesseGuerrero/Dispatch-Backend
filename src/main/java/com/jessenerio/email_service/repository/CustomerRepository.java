@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class CustomerRepository {
     private final MongoTemplate mongoTemplate;
@@ -25,9 +27,14 @@ public class CustomerRepository {
         return mongoTemplate.findById(id, Customer.class, "customers");
     }
 
-    public Customer findByUsername(String username) {
+    public Optional<Customer> findByUsername(String username) {
         Query query = new Query(Criteria.where("username").is(username));
-        return mongoTemplate.findOne(query, Customer.class, "customers");
+        return Optional.of(mongoTemplate.findOne(query, Customer.class, "customers"));
+    }
+
+    public boolean existsByUsername(String username) {
+        Query query = new Query(Criteria.where("username").is(username));
+        return mongoTemplate.exists(query, Customer.class, "customers");
     }
 
     public Customer updateCustomer(String id, Customer customer) {
