@@ -1,9 +1,5 @@
 package com.jessenerio.email_service;
 
-import com.jessenerio.email_service.service.EMailService;
-import com.jessenerio.email_service.util.tests.CreateCustomer;
-import com.jessenerio.email_service.util.tests.SendEmail;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

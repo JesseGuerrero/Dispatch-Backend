@@ -1,6 +1,6 @@
 package com.jessenerio.email_service.security;
 
-import com.jessenerio.email_service.document.Customer;
+import com.jessenerio.email_service.document.User;
 import com.jessenerio.email_service.dto.TokenDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,7 +27,7 @@ public class TokenGenerator {
     JwtEncoder refreshTokenEncoder;
 
     private String createAccessToken(Authentication authentication) {
-        Customer user = (Customer) authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
         Instant now = Instant.now();
 
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
@@ -41,7 +41,7 @@ public class TokenGenerator {
     }
 
     private String createRefreshToken(Authentication authentication) {
-        Customer user = (Customer) authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
         Instant now = Instant.now();
 
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
@@ -55,7 +55,7 @@ public class TokenGenerator {
     }
 
     public TokenDTO createToken(Authentication authentication) {
-        if (!(authentication.getPrincipal() instanceof Customer user)) {
+        if (!(authentication.getPrincipal() instanceof User user)) {
             throw new BadCredentialsException(
                     MessageFormat.format("principal {0} is not of User type", authentication.getPrincipal().getClass())
             );

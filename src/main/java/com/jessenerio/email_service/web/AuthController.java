@@ -1,12 +1,12 @@
 package com.jessenerio.email_service.web;
 
 
-import com.jessenerio.email_service.document.Customer;
+import com.jessenerio.email_service.document.User;
 import com.jessenerio.email_service.dto.LoginDTO;
 import com.jessenerio.email_service.dto.SignupDTO;
 import com.jessenerio.email_service.dto.TokenDTO;
 import com.jessenerio.email_service.security.TokenGenerator;
-import com.jessenerio.email_service.service.CustomerDetailsService;
+import com.jessenerio.email_service.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,7 @@ import java.util.Collections;
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
-    CustomerDetailsService userDetailsManager;
+    UserDetailsService userDetailsManager;
     @Autowired
     TokenGenerator tokenGenerator;
     @Autowired
@@ -44,7 +43,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Username already exists");
 
         //register user
-        Customer user = new Customer(signupDTO.getFirstName(), signupDTO.getLastName(), signupDTO.getUsername(),
+        User user = new User(signupDTO.getFirstName(), signupDTO.getLastName(), signupDTO.getUsername(),
                 signupDTO.getEmail(), signupDTO.getPassword());
         userDetailsManager.createUser(user);
 

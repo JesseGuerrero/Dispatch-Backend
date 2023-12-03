@@ -1,6 +1,6 @@
 package com.jessenerio.email_service.security;
 
-import com.jessenerio.email_service.document.Customer;
+import com.jessenerio.email_service.document.User;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,7 +14,7 @@ public class JwtToUserConverter implements Converter<Jwt, UsernamePasswordAuthen
 
     @Override
     public UsernamePasswordAuthenticationToken convert(Jwt jwt) {
-        Customer user = new Customer();
+        User user = new User();
         user.setId(jwt.getSubject());
         return new UsernamePasswordAuthenticationToken(user, jwt, Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
     }

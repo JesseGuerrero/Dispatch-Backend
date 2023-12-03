@@ -7,21 +7,19 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "customers") // Use @Document annotation for MongoDB collection
-public class Customer implements UserDetails {
+@Document(collection = "users") // Use @Document annotation for MongoDB collection
+public class User implements UserDetails {
 
     @Id // Use @Id annotation for MongoDB document identifier
     private String id;
@@ -38,7 +36,7 @@ public class Customer implements UserDetails {
     private List<Course> courses;
     private List<WrittenEmail> emailTemplates;
 
-    public Customer(String firstName, String lastName, String username, String email, String password) {
+    public User(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

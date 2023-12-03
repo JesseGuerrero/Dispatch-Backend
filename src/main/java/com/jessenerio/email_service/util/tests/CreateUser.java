@@ -1,27 +1,27 @@
 package com.jessenerio.email_service.util.tests;
 
-import com.jessenerio.email_service.document.Customer;
-import com.jessenerio.email_service.service.CustomerService;
+import com.jessenerio.email_service.document.User;
+import com.jessenerio.email_service.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateCustomer {
-    CustomerService customerService;
+public class CreateUser {
+    UserDetailsService userDetailsService;
 
     @Autowired
-    public CreateCustomer(CustomerService customerService) {
-        this.customerService = customerService;
+    public CreateUser(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
-    public void testCreateCustomer() {
-        System.out.println("Creating customer...");
-        // Example: Creating a customer
+    public void testCreateUser() {
+        System.out.println("Creating user...");
+        // Example: Creating a user
         String firstName = "Jesse";
         String lastName = "Nerio";
         String username = "jessenerio";
         String email = "jesseguerrero1991@gmail.com";
         String password = "password";
-        Customer customer = new Customer(
+        User user = new User(
                 firstName,
                 lastName,
                 username,
@@ -29,6 +29,6 @@ public class CreateCustomer {
                 password
         );
 
-        this.customerService.createCustomer(customer);
+        this.userDetailsService.createUser(user);
     }
 }
