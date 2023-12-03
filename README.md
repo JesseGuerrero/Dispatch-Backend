@@ -15,18 +15,18 @@ General rules:<br>
 
 TODO<br>
 #1: Create frontend<br>
--Subscribe to newsletter form<br>
--Subscriber list delete/tag-up form<br>
--E-mail writing form input<br>
--Written e-mails saving form<br>
--Broadcast to tag form<br>
--Automatic scheduler in front-end<br>
+<s>-Subscribe to newsletter form</s><br>
+<s>-Subscriber list delete/tag-up form</s><br>
+<s>-E-mail writing form input</s><br>
+<s>-Written e-mails saving form</s><br>
+<s>-Broadcast to tag form</s><br>
+<s>-Automatic scheduler in front-end</s><br>
 
 
 
 #2: Create subscriber class<br>
-MongoDB Documents<br>
-Subscribers collection, subscriber document:<br>
+<s>MongoDB Documents</s><br>
+<s>Subscribers collection, subscriber document:</s><br>
 ```JSON
 {
   "name": "",
@@ -124,9 +124,9 @@ Subscribers collection, subscriber document:<br>
 <br><br>
 
 #5 Create user authentication with each user being a customer<br>
--Try https://github.com/aliyusahaboadam/Registration-and-Login-Application
--Filter homepage, signup & login only clickable by being logged in with Spring security<br>
-     -Make every other page redirect to login
+<s>-Try https://github.com/aliyusahaboadam/Registration-and-Login-Application </s><br>
+<s>-Filter homepage, signup & login only clickable by being logged in with Spring security</s><br>
+<s>     -Make every other page redirect to login</s><br>
 -Create Sign up page for creating customers<br>
 -Create Login page with signup link<br>
 -Make Spring use Mongo Customers to login<br> 
