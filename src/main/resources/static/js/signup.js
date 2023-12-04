@@ -1,6 +1,4 @@
 let isSignUp = false;
-document.getElementById("signup-block").style.display = "none";
-console.log("signup.js loaded");
 
 function login() {
     if (isSignUp) {
