@@ -27,9 +27,9 @@ public class UserRepository {
         return mongoTemplate.findById(id, User.class, "users");
     }
 
-    public Optional<User> findByUsername(String username) {
+    public User findByUsername(String username) {
         Query query = new Query(Criteria.where("username").is(username));
-        return Optional.of(mongoTemplate.findOne(query, User.class, "users"));
+        return mongoTemplate.findOne(query, User.class, "users");
     }
 
     public boolean existsByUsername(String username) {

@@ -29,23 +29,20 @@ public class WebSecurity {
                                 "/images/*", "/css/*", "/js/*", "/auth/*").permitAll()
                         .antMatchers("/*").authenticated()
                 )
-                .csrf().disable()
-                .cors().disable()
-                .httpBasic().disable()
-                .sessionManagement(
-                        (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                .csrf().disable()//only while debugging with Postman
                 .formLogin()
                 .loginPage("/signup");
 
-        return http.build();
+        return http.build();// Builds security chain into rules for a set of urls
     }
 
     @Bean
-    DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(userService);
-        return provider;
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService);
+        //All incoming passwords to the authenticationManager will be encoded to check with the encoded version
+        authProvider.setPasswordEncoder(passwordEncoder);
+
+        return authProvider;
     }
 }

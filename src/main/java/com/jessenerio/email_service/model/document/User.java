@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class User implements UserDetails {
     private String username;
     private String email;
     private String password;
-    private Collection<? extends GrantedAuthority>  role;
+    private List<SimpleGrantedAuthority> authorities;
 
     private List<EmailContact> emailList;
     private List<Tag> tags;
@@ -43,7 +44,7 @@ public class User implements UserDetails {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = Arrays.asList(() -> "ROLE_USER");
+        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
 
         this.emailList = new ArrayList<>();
         this.tags = new ArrayList<>();
@@ -54,7 +55,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.role;
+        return this.authorities;
     }
 
     @Override

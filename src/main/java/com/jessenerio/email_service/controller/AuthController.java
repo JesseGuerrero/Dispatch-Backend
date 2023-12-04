@@ -7,8 +7,12 @@ import com.jessenerio.email_service.model.dto.SignupDTO;
 import com.jessenerio.email_service.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +24,9 @@ public class AuthController {
     @Autowired
     UserService userService;
     @Autowired
-    DaoAuthenticationProvider daoAuthenticationProvider;
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    DaoAuthenticationProvider authenticationManager;
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody SignupDTO signupDTO) {
@@ -31,7 +37,6 @@ public class AuthController {
         User user = new User(signupDTO.getFirstName(), signupDTO.getLastName(), signupDTO.getUsername(), signupDTO.getEmail(), signupDTO.getPassword());
         userService.createUser(user);
 
-        daoAuthenticationProvider.authenticate(UsernamePasswordAuthenticationToken.unauthenticated(user, user.getPassword()));
         return ResponseEntity.ok("User created");
     }
 
@@ -42,9 +47,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
-        User user = (User)userService.loadUserByUsername(loginDTO.getUsername());
-        daoAuthenticationProvider.authenticate(UsernamePasswordAuthenticationToken.unauthenticated(user, loginDTO.getPassword()));
+    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+        // Authenticate the user
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword())
+        );
+
+        // Set the authentication in the security context
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         return ResponseEntity.ok("User logged in");
     }
 
