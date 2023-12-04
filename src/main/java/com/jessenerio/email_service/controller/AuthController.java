@@ -7,7 +7,6 @@ import com.jessenerio.email_service.model.dto.SignupDTO;
 import com.jessenerio.email_service.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -17,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,16 +43,21 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity logout() {
-        //TODO: logout
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        SecurityContextHolder.clearContext();
+        HttpSession session = request.getSession(false);
+        if (session != null)
+            session.invalidate();
+
+        return ResponseEntity.ok("User logged out");
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+        User user = (User) userService.loadUserByUsername(loginDTO.getUsername());
         // Authenticate the user
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword())
+                new UsernamePasswordAuthenticationToken(user, loginDTO.getPassword())
         );
 
         // Set the authentication in the security context
