@@ -29,6 +29,7 @@ public class WebSecurity {
                         .antMatchers("/*").authenticated()
                 )
                 .csrf().disable()//only while debugging with Postman
+                .cors().disable()
                 .formLogin()
                 .loginPage("/signup");
 
