@@ -72,9 +72,9 @@ public class MongoDBConfig {
         }
 
         // Check if the collection exists
-        if (!mongoClient.getDatabase(mongoDatabase).listCollectionNames().into(new ArrayList<>()).contains("users")) {
+        if (!mongoClient.getDatabase(mongoDatabase).listCollectionNames().into(new ArrayList<>()).contains("newsletters")) {
             // Create the collection
-            mongoClient.getDatabase(mongoDatabase).createCollection("users");
+            mongoClient.getDatabase(mongoDatabase).createCollection("newsletters");
         }
     }
 }

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/api")
-public class WebAPI {
+public class NewsletterAPI {
     @PostMapping("/")
     @ResponseBody
     public String error(HttpServletRequest request) {

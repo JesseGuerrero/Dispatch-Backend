@@ -1,10 +1,10 @@
 package com.jessenerio.email_service.controller;
 
 
-import com.jessenerio.email_service.model.document.User;
+import com.jessenerio.email_service.model.document.Newsletter;
 import com.jessenerio.email_service.model.dto.LoginDTO;
 import com.jessenerio.email_service.model.dto.SignupDTO;
-import com.jessenerio.email_service.model.service.UserService;
+import com.jessenerio.email_service.model.service.NewsletterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,9 +22,9 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthAPI {
     @Autowired
-    UserService userService;
+    NewsletterService newsletterService;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -32,14 +32,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody SignupDTO signupDTO) {
-        if (userService.isDuplicateUser(signupDTO.getUsername(), signupDTO.getEmail()))
-            return ResponseEntity.badRequest().body("Username already exists");
+        if (newsletterService.isDuplicateNewsletter(signupDTO.getTitle()))
+            return ResponseEntity.badRequest().body("Newsletter title already exists");
 
-        //register user
-        User user = new User(signupDTO.getFirstName(), signupDTO.getLastName(), signupDTO.getUsername(), signupDTO.getEmail(), signupDTO.getPassword());
-        userService.createUser(user);
+        //register newsletter
+        Newsletter newsletter = new Newsletter(signupDTO.getTitle(), signupDTO.getOwnerName(), signupDTO.getEmail(), signupDTO.getPassword());
+        newsletterService.createNewsletter(newsletter);
 
-        return ResponseEntity.ok("User created");
+        return ResponseEntity.ok("Newsletter created");
     }
 
     @PostMapping("/logout")
@@ -49,21 +49,21 @@ public class AuthController {
         if (session != null)
             session.invalidate();
 
-        return ResponseEntity.ok("User logged out");
+        return ResponseEntity.ok("You are logged out of the newsletter");
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
-        User user = (User) userService.loadUserByUsername(loginDTO.getUsername());
-        // Authenticate the user
+        Newsletter newsletter = newsletterService.getNewsLetterByTitle(loginDTO.getTitle());
+        // Authenticate the newsletter
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user, loginDTO.getPassword())
+                new UsernamePasswordAuthenticationToken(newsletter, loginDTO.getPassword())
         );
 
         // Set the authentication in the security context
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return ResponseEntity.ok("User logged in");
+        return ResponseEntity.ok("You are logged into newsletter");
     }
 
 }

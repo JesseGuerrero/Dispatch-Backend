@@ -1,6 +1,6 @@
 package com.jessenerio.email_service.config.security;
 
-import com.jessenerio.email_service.model.service.UserService;
+import com.jessenerio.email_service.model.service.NewsletterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -19,7 +18,7 @@ public class WebSecurity {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    UserService userService;
+    NewsletterService newsletterService;
 
     @Bean
     public SecurityFilterChain publicSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -39,7 +38,7 @@ public class WebSecurity {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService);
+        authProvider.setUserDetailsService(newsletterService);
         //All incoming passwords to the authenticationManager will be encoded to check with the encoded version
         authProvider.setPasswordEncoder(passwordEncoder);
 

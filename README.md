@@ -158,3 +158,10 @@ TODO<br>
 #10 Update to latest<br>
 -Update to latest Gradle<br>
 -Update to latest Spring boot and Java 21<br>
+-Create email list exporter for other services<br>
+-Create backup system<br>
+
+change user to site,
+change last name to site name,
+keep first name for emails, lower case then title each word in site name,
+check unique site name only

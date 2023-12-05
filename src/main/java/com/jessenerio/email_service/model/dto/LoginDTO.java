@@ -8,10 +8,10 @@ import static com.jessenerio.email_service.util.Utils.toTitleCase;
 @Getter
 @Setter
 public class LoginDTO {
-    private String username;
+    private String title;
     private String password;
 
-    public String getUsername() {
-        return toTitleCase(username);
+    public String getTitle() {
+        return toTitleCase(title);
     }
 }

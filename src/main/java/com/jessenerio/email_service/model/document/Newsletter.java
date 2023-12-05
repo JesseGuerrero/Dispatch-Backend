@@ -11,26 +11,24 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "users") // Use @Document annotation for MongoDB collection
-public class User implements UserDetails {
+@Document(collection = "newsletters") // Use @Document annotation for MongoDB collection
+public class Newsletter implements UserDetails {
 
     @Id // Use @Id annotation for MongoDB document identifier
     private String id;
 
-    private String firstName;
-    private String lastName;
-    private String username;
+    private String title;
+    private String ownerName;
     private String email;
     private String password;
-    private List<SimpleGrantedAuthority> authorities;
 
     private List<EmailContact> emailList;
     private List<Tag> tags;
@@ -38,13 +36,11 @@ public class User implements UserDetails {
     private List<Course> courses;
     private List<WrittenEmail> emailTemplates;
 
-    public User(String firstName, String lastName, String username, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
+    public Newsletter(String title, String ownerName, String email, String password) {
+        this.title = title;
+        this.ownerName = ownerName;
         this.email = email;
         this.password = password;
-        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
 
         this.emailList = new ArrayList<>();
         this.tags = new ArrayList<>();
@@ -55,7 +51,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.authorities;
+        return Collections.EMPTY_LIST;
     }
 
     @Override
@@ -65,7 +61,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.title;
     }
 
     // Other UserDetails methods...

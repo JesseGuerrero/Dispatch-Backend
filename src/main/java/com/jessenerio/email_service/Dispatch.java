@@ -13,10 +13,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @SpringBootApplication
-public class EMailServiceApplication {
+public class Dispatch {
     public static void main(String[] args) {
         initConfigFile();
-        ApplicationContext context = SpringApplication.run(EMailServiceApplication.class, args);
+        ApplicationContext context = SpringApplication.run(Dispatch.class, args);
 //        context.getBean(SendEmail.class).testBroadcast();
     }
 
