@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import static com.jessenerio.email_service.util.Utils.decodeBase64;
 import static com.jessenerio.email_service.util.Utils.toTitleCase;
 
 @Getter
@@ -31,8 +32,6 @@ public class SignupDTO {
     }
 
     public String getPassword() {
-        byte[] decodedBytes = Base64.getDecoder().decode(this.password);
-        String password = new String(decodedBytes, StandardCharsets.UTF_8);
-        return password;
+        return decodeBase64(password);
     }
 }

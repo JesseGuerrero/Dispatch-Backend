@@ -26,7 +26,7 @@ public class WebSecurity {
                 .authorizeHttpRequests((authorize) -> authorize
                         .antMatchers("/", "/error", "/login", "/signup",
                                 "/images/*", "/css/*", "/js/*", "/auth/*").permitAll()
-                        .antMatchers("/*").authenticated()
+                        .antMatchers("/*", "/api/*").authenticated()
                 )
                 .csrf().disable()//only while debugging with Postman
                 .cors().disable()

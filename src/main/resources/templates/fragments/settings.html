@@ -1,0 +1,45 @@
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+>
+<div layout:fragment="body">
+    <h3>Rename title</h3>
+    <form id="rename-title" method="post">
+        <label>Title:</label>
+        <input type="text" name="title" required autofocus>
+        <button type="button" onclick="(function() {postForm('/api/rename-title', 'rename-title', 'title-response')})()">Submit</button>
+    </form>
+    <p id="title-response"></p>
+<!--    -->
+    <h3>Change owner name</h3>
+    <form id="rename-owner" method="post">
+        <label>Owner:</label>
+        <input type="text" name="owner" required autofocus>
+        <button type="button" onclick="(function() {postForm('/api/rename-owner', 'rename-owner', 'owner-response')})()">Submit</button>
+    </form>
+    <p id="owner-response"></p>
+<!--    -->
+    <h3>Change email</h3>
+    <form id="rename-email" method="post">
+        <label>Email:</label>
+        <input type="text" name="email" required autofocus>
+        <button type="button" onclick="(function() {postForm('/api/rename-email', 'rename-email', 'email-response')})()">Submit</button>
+    </form>
+    <p id="email-response"></p>
+<!--    -->
+    <h3>Change password</h3>
+    <form id="rename-password" method="post">
+        <label>password:</label>
+        <input type="text" name="password" required autofocus>
+        <button type="button" onclick="(function() {postForm('/api/rename-password', 'rename-password', 'password-response')})()">Submit</button>
+    </form>
+    <p id="password-response"></p>
+<!--    -->
+    <button onclick="confirmDelete()">Delete newsletter</button>
+    <p id="confirmation-text" style="color: orange; display: none">
+        Are you sure?
+    </p>
+    <script th:src="@{/js/settings.js}" type="text/javascript"></script>
+</div>
+</html>

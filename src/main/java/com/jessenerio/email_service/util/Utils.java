@@ -1,5 +1,8 @@
 package com.jessenerio.email_service.util;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 public class Utils {
     public static String toFirstLetterUpperCase(String str) {
         str = str.toLowerCase();
@@ -15,5 +18,10 @@ public class Utils {
             sb.append(" ");
         }
         return sb.toString().trim();
+    }
+
+    public static String decodeBase64(String str) {
+        byte[] decodedBytes = Base64.getDecoder().decode(str);
+        return new String(decodedBytes, StandardCharsets.UTF_8);
     }
 }

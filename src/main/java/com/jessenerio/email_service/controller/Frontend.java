@@ -12,6 +12,11 @@ public class Frontend {
         return "fragments/login";
     }
 
+    @GetMapping("/settings")
+    public String settings(Model model) {
+        return "fragments/settings";
+    }
+
     @GetMapping("/")
     public String index(Model model) {
         return "fragments/index";
