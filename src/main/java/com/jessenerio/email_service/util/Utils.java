@@ -2,6 +2,7 @@ package com.jessenerio.email_service.util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Random;
 
 public class Utils {
     public static String toFirstLetterUpperCase(String str) {
@@ -23,5 +24,17 @@ public class Utils {
     public static String decodeBase64(String str) {
         byte[] decodedBytes = Base64.getDecoder().decode(str);
         return new String(decodedBytes, StandardCharsets.UTF_8);
+    }
+
+    public static String generateRandomString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < 4; i++) {
+            char randomChar = (char) ('a' + random.nextInt(26));
+            stringBuilder.append(randomChar);
+        }
+
+        return stringBuilder.toString();
     }
 }

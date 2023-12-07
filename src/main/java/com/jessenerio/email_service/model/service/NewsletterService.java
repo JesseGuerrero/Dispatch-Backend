@@ -43,6 +43,12 @@ public class NewsletterService implements UserDetailsManager {
         newsletterRepository.deleteNewsletter(id);
     }
 
+    public boolean convertTemporaryPasswordToPassword(String title, String temporaryPassword) {
+        Newsletter newsletter = newsletterRepository.findByTitle(title);
+        return passwordEncoder.matches(temporaryPassword, newsletter.getTemporaryPassword()) ||
+               passwordEncoder.matches(temporaryPassword, newsletter.getPassword());
+    }
+
     public void deleteNewsletter(String id) {
         deleteUser(id);
     }

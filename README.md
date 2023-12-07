@@ -128,17 +128,19 @@ TODO<br>
 <s>-Filter homepage, signup & login only clickable by being logged in with Spring security</s><br>
 <s>     -Make every other page redirect to login</s><br><br>
 
--Test all security updates<br>
--Create email and username unique on register<br>
--Check if CustomErrorController is needed<br>
+<s>-Test all security updates</s><br>
+<s>-Create email and username unique on register</s><br>
+<s>-Check if CustomErrorController is needed</s><br>
 <br><br>
 
 #6 Create user authentication part 2<br>
--Create Sign up page for creating customers<br>
--Create Login page with signup link<br>
--Make Spring use Mongo Customers to login<br> 
--Create Forgot password page<br>
--Create Reset password page<br>
+<s>-Create Sign up page for creating customers</s><br>
+<s>-Create Login page with signup link</s><br>
+</s>-Make Spring use Mongo Customers to login</s><br> 
+-test forgot password <br>
+-Create Forgot password form on same page as login. Use a seperate post request.<br>
+-Create temporary password on wrong password to email from newsletter<br>
+-Do a check if temp password is correct and manually login<br>
 <br><br>
 
 #7 Update Customer Repository to extend MongoRepository<br><br>

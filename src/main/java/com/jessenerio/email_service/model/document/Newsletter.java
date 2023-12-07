@@ -29,6 +29,7 @@ public class Newsletter implements UserDetails {
     private String ownerName;
     private String email;
     private String password;
+    private String temporaryPassword;
 
     private List<EmailContact> emailList;
     private List<Tag> tags;
@@ -41,6 +42,7 @@ public class Newsletter implements UserDetails {
         this.ownerName = ownerName;
         this.email = email;
         this.password = password;
+        this.temporaryPassword = password;
 
         this.emailList = new ArrayList<>();
         this.tags = new ArrayList<>();
@@ -58,6 +60,13 @@ public class Newsletter implements UserDetails {
     public String getPassword() {
         return this.password;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+        this.temporaryPassword = password;
+    }
+
+
 
     @Override
     public String getUsername() {

@@ -1,6 +1,6 @@
 
 
-function postForm(endPoint, formId, responseId) {
+function postForm(endPoint, formId = null, responseId = null) {
     let form = document.getElementById(formId);
     if (form == null) {
         postEmptyFormData(endPoint, responseId)
