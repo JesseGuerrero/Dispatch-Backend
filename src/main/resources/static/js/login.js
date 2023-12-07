@@ -21,3 +21,7 @@ function createNewsletter() {
         postForm('/auth/register', 'signup-form', 'text-response')
     }
 }
+
+function confirmResetPassword() {
+
+}
