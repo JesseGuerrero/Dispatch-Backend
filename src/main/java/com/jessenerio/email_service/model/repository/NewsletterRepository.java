@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,6 +15,12 @@ public class NewsletterRepository {
     @Autowired
     public NewsletterRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
+    }
+
+    public void setTemporaryPassword(String title, String temporaryPassword) {
+        Query query = new Query(Criteria.where("title").is(title));
+        Update update = new Update().set("temporaryPassword", temporaryPassword);
+        mongoTemplate.updateFirst(query, update, Newsletter.class, "newsletters");
     }
 
     public String createNewsletter(Newsletter newsletter) {

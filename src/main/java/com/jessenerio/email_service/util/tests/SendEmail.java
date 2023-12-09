@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 public class SendEmail {
     private EMailService emailService;
 
-    @Value("${spring.mail.username}")
-    private String fromAddress;
-
     @Autowired
     public SendEmail(EMailService emailService) {
         this.emailService = emailService;
@@ -27,7 +24,7 @@ public class SendEmail {
                 "Hello, this is a test email."
         );
 
-        emailService.sendEmail(fromAddress, toAddress, email);
+        emailService.sendEmail(toAddress, email);
 
         System.out.println("Email sent successfully!");
     }

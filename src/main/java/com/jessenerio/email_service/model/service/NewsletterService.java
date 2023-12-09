@@ -43,10 +43,12 @@ public class NewsletterService implements UserDetailsManager {
         newsletterRepository.deleteNewsletter(id);
     }
 
-    public boolean convertTemporaryPasswordToPassword(String title, String temporaryPassword) {
+    public boolean convertTemporaryPasswordToPassword(String title, String password) {
         Newsletter newsletter = newsletterRepository.findByTitle(title);
-        return passwordEncoder.matches(temporaryPassword, newsletter.getTemporaryPassword()) ||
-               passwordEncoder.matches(temporaryPassword, newsletter.getPassword());
+        System.out.println("pass " + password + " temp " + newsletter.getTemporaryPassword());
+        System.out.println("pass " + password + " original " + newsletter.getPassword());
+        return passwordEncoder.matches(password, newsletter.getTemporaryPassword()) ||
+               passwordEncoder.matches(password, newsletter.getPassword());
     }
 
     public void deleteNewsletter(String id) {
@@ -88,5 +90,9 @@ public class NewsletterService implements UserDetailsManager {
 
     public Newsletter getNewsLetterByTitle(String title) {
         return (Newsletter) loadUserByUsername(title);
+    }
+
+    public void setTemporaryPassword(String title, String temporaryPassword) {
+        newsletterRepository.setTemporaryPassword(title, temporaryPassword);
     }
 }

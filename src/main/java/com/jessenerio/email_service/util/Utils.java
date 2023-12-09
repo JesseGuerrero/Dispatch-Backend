@@ -37,4 +37,25 @@ public class Utils {
 
         return stringBuilder.toString();
     }
+
+    public static String hideEmail(String email) {
+        StringBuilder result = new StringBuilder();
+        int charactersUsed = 0;
+
+        for (char c : email.toCharArray()) {
+            if (c == '@' || c == '.') {
+                result.append(c);
+                charactersUsed = 0;
+            } else {
+                if (charactersUsed < 2) {
+                    result.append(c);
+                } else {
+                    result.append('*');
+                }
+                charactersUsed++;
+            }
+        }
+
+        return result.toString();
+    }
 }

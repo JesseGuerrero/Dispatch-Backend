@@ -15,7 +15,7 @@
             <br>
             <button type="button" onclick="login()">Login</button>
             <button type="button" onclick="createNewsletter()">Create</button>
-            <button type="button" onclick="(function() {postForm('/auth/forgot-password', 'login-form', 'text-response')})()">Forgot Password?</button>
+            <button type="button" onclick="forgotPassword()">Forgot Password?</button>
         </form>
     </div>
     <div id="signup-block" style="display: none">
@@ -38,7 +38,7 @@
             <button type="button" onclick="forgotPassword()">Forgot Password?</button>
         </form>
     </div>
-    <div id="forgot-block">
+    <div id="forgot-block" style="display: none">
         <h1>Newsletter Forgot Password</h1>
         <form id="forgot-form" method="post">
             <label>Title:</label>

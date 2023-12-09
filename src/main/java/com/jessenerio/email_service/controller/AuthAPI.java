@@ -69,26 +69,24 @@ public class AuthAPI {
         return ResponseEntity.ok("You are logged out of the newsletter");
     }
 
-    @PostMapping("/login") //TODO: Check wrong passwords and add temporary password to newsletter
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
         Newsletter newsletter = newsletterService.getNewsLetterByTitle(loginDTO.getTitle());
-        // Authenticate the newsletter
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(newsletter, loginDTO.getPassword())
-            );
-
-            // Set the authentication in the security context
-            SecurityContextHolder.getContext()
-                    .setAuthentication(authentication);
-
+        if (newsletter == null)
+            return ResponseEntity.badRequest().body("Cannot find newsletter with that title");
+        boolean isValidLogin = newsletterService.convertTemporaryPasswordToPassword(
+                loginDTO.getTitle(),
+                loginDTO.getPassword());
+        if(isValidLogin) {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(newsletter, null, Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
             return ResponseEntity.ok("You are logged into newsletter");
-        } catch (AuthenticationException a) {
-            return ResponseEntity.badRequest().body("Incorrect credentials");
+        } else {
+            return ResponseEntity.badRequest().body("Invalid password");
         }
     }
 
-    @PostMapping("/login-temp")
+    @PostMapping("/forgot-password")
     public ResponseEntity<String> loginTemp(@RequestBody LoginDTO loginDTO) {
         Newsletter newsletter = newsletterService.getNewsLetterByTitle(loginDTO.getTitle());
         if (newsletter == null)
@@ -101,22 +99,13 @@ public class AuthAPI {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return ResponseEntity.ok("You are logged into newsletter");
         } else {
-            emailService.sendEmail(newsletter.getEmail(), newsletter.getEmail(), new Email("Temporary Password",
-                    Utils.generateRandomString()));
-            return ResponseEntity.badRequest().body("A new temporary password was sent to your email. Please login with the it.");
+            String temporaryPassword = Utils.generateRandomString();
+            String email = Utils.hideEmail(newsletter.getEmail());
+            newsletterService.setTemporaryPassword(newsletter.getTitle(), passwordEncoder.encode(temporaryPassword));
+            emailService.sendEmail(newsletter.getEmail(), new Email("Temporary Password",
+                    temporaryPassword));
+            return ResponseEntity.badRequest().body("A new temporary password was sent to " + email + ". Please login with it.");
         }
-    }
-
-    @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordDTO forgotPasswordDTO) {
-        Newsletter newsletter = newsletterService.getNewsLetterByTitle(forgotPasswordDTO.getTitle());
-        //if newsletter null return "cannot find newsletter with that title
-        //get email
-        //parse out all characters except last 2 characters before .com, .org after @, and except first two characters. Replace with *
-        //set temporary password
-        //send email with temporary password
-
-        return ResponseEntity.ok("Password reset email sent to EMAIL HERE");
     }
 
 }
