@@ -136,21 +136,31 @@ TODO<br>
 #6 Create user authentication part 2<br>
 <s>-Create Sign up page for creating customers</s><br>
 <s>-Create Login page with signup link</s><br>
-</s>-Make Spring use Mongo Customers to login</s><br> 
--test forgot password <br>
--Create Forgot password form on same page as login. Use a seperate post request.<br>
--Create temporary password on wrong password to email from newsletter<br>
--Do a check if temp password is correct and manually login<br>
+<s>-Make Spring use Mongo Customers to login</s><br> 
+<s>-test forgot password</s><br>
+<s>-Create Forgot password form on same page as login. Use a seperate post request.</s><br>
+<s>-Create temporary password on wrong password to email from newsletter</s><br>
+<s>-Do a check if temp password is correct and manually login</s><br>
 <br><br>
 
-#7 Update Customer Repository to extend MongoRepository<br><br>
+#8: Create Newsletter API<br>
+-Do all easy endpoints first<br>
+1. Subscribe<br>
+2. Unsubscribe<br>
+3. Broadcast<br>
+4. Add empty tag<br>
+5. Add delete tag<br>
+6. Rename title<br>
+7. Rename owner<br>
+8. Rename email<br>
+9. Rename password<br>
+10. Delete newsletter<br>
 
-#8: Create API<br>
--Subscribe endpoint<br>
--Unsubscribe endpoint<br>
--Add tags endpoint<br>
--Add on-schedule end-point<br>
--Add to course endpoint<br><br>
+-Difficult<br>
+1. Add scheduled e-mail<br>
+2. Save and write email<br>
+3. Add/update course
+<br><br>
 
 #9: Create automation backend<br>
 -Send scheduled e-mails noon<br>
