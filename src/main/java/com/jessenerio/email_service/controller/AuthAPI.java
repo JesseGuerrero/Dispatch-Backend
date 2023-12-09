@@ -21,11 +21,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -87,25 +89,20 @@ public class AuthAPI {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> loginTemp(@RequestBody LoginDTO loginDTO) {
-        Newsletter newsletter = newsletterService.getNewsLetterByTitle(loginDTO.getTitle());
+    public ResponseEntity<String> loginTemp(@RequestBody Map<String, String> requestBody) {
+        String title = Utils.toTitleCase(requestBody.get("title"));
+        if (title == null || title.isEmpty()) {
+            return ResponseEntity.badRequest().body("Invalid request");
+        }
+        Newsletter newsletter = newsletterService.getNewsLetterByTitle(title);
         if (newsletter == null)
             return ResponseEntity.badRequest().body("Cannot find newsletter with that title");
-        boolean isValidLogin = newsletterService.convertTemporaryPasswordToPassword(
-                loginDTO.getTitle(),
-                loginDTO.getPassword());
-        if(isValidLogin) {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(newsletter, null, Collections.emptyList());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return ResponseEntity.ok("You are logged into newsletter");
-        } else {
-            String temporaryPassword = Utils.generateRandomString();
-            String email = Utils.hideEmail(newsletter.getEmail());
-            newsletterService.setTemporaryPassword(newsletter.getTitle(), passwordEncoder.encode(temporaryPassword));
-            emailService.sendEmail(newsletter.getEmail(), new Email("Temporary Password",
-                    temporaryPassword));
-            return ResponseEntity.badRequest().body("A new temporary password was sent to " + email + ". Please login with it.");
-        }
+        String temporaryPassword = Utils.generateRandomString();
+        String email = Utils.hideEmail(newsletter.getEmail());
+        newsletterService.setTemporaryPassword(newsletter.getTitle(), passwordEncoder.encode(temporaryPassword));
+        emailService.sendEmail(newsletter.getEmail(), new Email("Temporary Password",
+                temporaryPassword));
+        return ResponseEntity.badRequest().body("A new temporary password was sent to " + email + ". Please login with it.");
     }
 
 }

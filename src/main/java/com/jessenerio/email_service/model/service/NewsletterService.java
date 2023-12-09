@@ -45,8 +45,6 @@ public class NewsletterService implements UserDetailsManager {
 
     public boolean convertTemporaryPasswordToPassword(String title, String password) {
         Newsletter newsletter = newsletterRepository.findByTitle(title);
-        System.out.println("pass " + password + " temp " + newsletter.getTemporaryPassword());
-        System.out.println("pass " + password + " original " + newsletter.getPassword());
         return passwordEncoder.matches(password, newsletter.getTemporaryPassword()) ||
                passwordEncoder.matches(password, newsletter.getPassword());
     }
