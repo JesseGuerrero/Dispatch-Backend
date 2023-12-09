@@ -13,7 +13,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -32,7 +34,7 @@ public class Newsletter implements UserDetails {
     private String temporaryPassword;
 
     private List<EmailContact> emailList;
-    private List<Tag> tags;
+    private Map<String, Tag> tags;
     private List<ScheduledEmails> scheduledEmails;
     private List<Course> courses;
     private List<WrittenEmail> emailTemplates;
@@ -45,7 +47,7 @@ public class Newsletter implements UserDetails {
         this.temporaryPassword = password;
 
         this.emailList = new ArrayList<>();
-        this.tags = new ArrayList<>();
+        this.tags = new HashMap<>();
         this.scheduledEmails = new ArrayList<>();
         this.courses = new ArrayList<>();
         this.emailTemplates = new ArrayList<>();

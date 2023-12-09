@@ -15,7 +15,7 @@
     <h3>Change owner name</h3>
     <form id="rename-owner" method="post">
         <label>Owner:</label>
-        <input type="text" name="owner" required autofocus>
+        <input type="text" name="ownerName" required autofocus>
         <button type="button" onclick="(function() {postForm('/api/rename-owner', 'rename-owner', 'owner-response')})()">Submit</button>
     </form>
     <p id="owner-response"></p>

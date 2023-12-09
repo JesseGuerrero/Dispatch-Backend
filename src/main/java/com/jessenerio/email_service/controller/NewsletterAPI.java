@@ -1,6 +1,14 @@
 package com.jessenerio.email_service.controller;
 
 
+import com.jessenerio.email_service.model.dto.newsletterDTOs.AddEmailDTO;
+import com.jessenerio.email_service.model.dto.newsletterDTOs.AddEmptyTagDTO;
+import com.jessenerio.email_service.model.dto.newsletterDTOs.BroadcastToTagDTO;
+import com.jessenerio.email_service.model.dto.newsletterDTOs.ChangeNewsletterEmailDTO;
+import com.jessenerio.email_service.model.dto.newsletterDTOs.ChangeNewsletterPasswordDTO;
+import com.jessenerio.email_service.model.dto.newsletterDTOs.DeleteTagDTO;
+import com.jessenerio.email_service.model.dto.newsletterDTOs.RenameNewsletterOwnerNameDTO;
+import com.jessenerio.email_service.model.dto.newsletterDTOs.RenameNewsletterTitleDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,26 +29,20 @@ public class NewsletterAPI {
         return ResponseEntity.ok("Success");
     }
     @PostMapping("/broadcast")
-    public ResponseEntity broadcast(
-            @RequestParam String tags,
-            @RequestParam String subject,
-            @RequestParam String message
-    ) {
-        System.out.println(tags + " " + subject + " " + message);
+    public ResponseEntity broadcast(BroadcastToTagDTO broadcastToTagDTO) {
+        System.out.println(broadcastToTagDTO);
         return ResponseEntity.ok("Success");
     }
 
     @PostMapping("/add-tag")
-    public ResponseEntity addTag(HttpServletRequest request) {
-        for(String key : request.getParameterMap().keySet())
-            System.out.println(key + ": " + request.getParameter(key));
+    public ResponseEntity addTag(AddEmptyTagDTO addEmptyTagDTO) {
+        System.out.println(addEmptyTagDTO);
         return ResponseEntity.ok("Success");
     }
 
     @PostMapping("/delete-tags")
-    public ResponseEntity deleteTags(HttpServletRequest request) {
-        for(String key : request.getParameterMap().keySet())
-            System.out.println(key + ": " + request.getParameter(key));
+    public ResponseEntity deleteTags(DeleteTagDTO deleteTagDTO) {
+        System.out.println(deleteTagDTO);
         return ResponseEntity.ok("Success");
     }
 
@@ -59,9 +61,8 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/add-subscriber")
-    public ResponseEntity addSubscriber(HttpServletRequest request) {
-        for(String key : request.getParameterMap().keySet())
-            System.out.println(key + ": " + request.getParameter(key));
+    public ResponseEntity addSubscriber(AddEmailDTO addEmailDTO) {
+        System.out.println(addEmailDTO);
         return ResponseEntity.ok("Success");
     }
 
@@ -73,26 +74,26 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/rename-title")
-    public ResponseEntity renameTitle(@RequestParam String title) {
-        System.out.println(title);
+    public ResponseEntity renameTitle(RenameNewsletterTitleDTO renameNewsletterTitleDTO) {
+        System.out.println(renameNewsletterTitleDTO);
         return ResponseEntity.ok("Success");
     }
 
     @PostMapping("/rename-owner")
-    public ResponseEntity renameOwner(@RequestParam String owner) {
-        System.out.println(owner);
+    public ResponseEntity renameOwner(RenameNewsletterOwnerNameDTO renameNewsletterOwnerNameDTO) {
+        System.out.println(renameNewsletterOwnerNameDTO);
         return ResponseEntity.ok("Success");
     }
 
     @PostMapping("/rename-email")
-    public ResponseEntity renameEmail(@RequestParam String email) {
-        System.out.println(email);
+    public ResponseEntity renameEmail(ChangeNewsletterEmailDTO changeNewsletterEmailDTO) {
+        System.out.println(changeNewsletterEmailDTO
         return ResponseEntity.ok("Success");
     }
 
     @PostMapping("/rename-password")
-    public ResponseEntity renamePassword(@RequestParam String password) {
-        System.out.println(decodeBase64(password));
+    public ResponseEntity renamePassword(ChangeNewsletterPasswordDTO changeNewsletterPasswordDTO) {
+        System.out.println(changeNewsletterPasswordDTO);
         return ResponseEntity.ok("Success");
     }
 

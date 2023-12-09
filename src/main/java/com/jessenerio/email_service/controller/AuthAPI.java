@@ -3,25 +3,22 @@ package com.jessenerio.email_service.controller;
 
 import com.jessenerio.email_service.model.document.Email;
 import com.jessenerio.email_service.model.document.Newsletter;
-import com.jessenerio.email_service.model.dto.ForgotPasswordDTO;
-import com.jessenerio.email_service.model.dto.LoginDTO;
-import com.jessenerio.email_service.model.dto.SignupDTO;
+import com.jessenerio.email_service.model.dto.authDTOs.ForgotPasswordDTO;
+import com.jessenerio.email_service.model.dto.authDTOs.LoginDTO;
+import com.jessenerio.email_service.model.dto.authDTOs.SignupDTO;
 import com.jessenerio.email_service.model.service.EMailService;
 import com.jessenerio.email_service.model.service.NewsletterService;
 import com.jessenerio.email_service.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,12 +86,11 @@ public class AuthAPI {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> loginTemp(@RequestBody Map<String, String> requestBody) {
-        String title = Utils.toTitleCase(requestBody.get("title"));
-        if (title == null || title.isEmpty()) {
+    public ResponseEntity<String> loginTemp(ForgotPasswordDTO forgotPasswordDTO) {
+        if (forgotPasswordDTO.getTitle() == null || forgotPasswordDTO.getTitle().isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid request");
         }
-        Newsletter newsletter = newsletterService.getNewsLetterByTitle(title);
+        Newsletter newsletter = newsletterService.getNewsLetterByTitle(forgotPasswordDTO.getTitle());
         if (newsletter == null)
             return ResponseEntity.badRequest().body("Cannot find newsletter with that title");
         String temporaryPassword = Utils.generateRandomString();
