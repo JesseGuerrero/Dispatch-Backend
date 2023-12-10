@@ -58,6 +58,8 @@ public class NewsletterRepository {
             existingNewsletter.setCourses(newsletter.getCourses());
             existingNewsletter.setEmailTemplates(newsletter.getEmailTemplates());
             existingNewsletter.setPassword(newsletter.getPassword());
+            existingNewsletter.setTitle(newsletter.getTitle());
+            existingNewsletter.setOwnerName(newsletter.getOwnerName());
 
             // Save the updated newsletter
             mongoTemplate.save(existingNewsletter, "newsletter");

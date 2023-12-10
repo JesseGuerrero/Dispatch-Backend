@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EmailContact {
     private String email;
-    private Boolean firstName;
+    private String firstName;
 }

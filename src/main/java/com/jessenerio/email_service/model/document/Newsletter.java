@@ -53,6 +53,22 @@ public class Newsletter implements UserDetails {
         this.emailTemplates = new ArrayList<>();
     }
 
+    public void addTag(String tagName) {
+        tags.put(tagName, new Tag());
+    }
+
+    public void removeTag(String tagName) {
+        tags.remove(tagName);
+    }
+
+    public void addEmailContact(String email, String firstName) {
+        emailList.add(new EmailContact(email, firstName));
+    }
+
+    public void removeEmailContact(String email) {
+        emailList.removeIf(emailContact -> emailContact.getEmail().equals(email));
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.EMPTY_LIST;
