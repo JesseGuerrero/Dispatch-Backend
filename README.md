@@ -145,16 +145,20 @@ TODO<br>
 
 #8: Create Newsletter API<br>
 -Do all easy endpoints first<br>
-1. Subscribe<br>
-2. Unsubscribe<br>
-3. Broadcast<br>
-4. Add empty tag<br>
-5. Add delete tag<br>
-6. Rename title<br>
-7. Rename owner<br>
-8. Rename email<br>
-9. Rename password<br>
-10. Delete newsletter<br>
+<s>1. Subscribe</s><br>
+<s>2. Unsubscribe</s><br>
+<s>3. Broadcast</s><br>
+<s>4. Add empty tag</s><br>
+<s>5. Add delete tag</s><br>
+<s>6. Rename title</s><br>
+<s>7. Rename owner</s><br>
+<s>8. Rename email</s><br>
+<s>9. Rename password</s><br>
+<s>10. Delete newsletter</s>
+<br><br>
+
+Test all easy endpoints
+<br><br>
 
 -Difficult<br>
 1. Add scheduled e-mail<br>
