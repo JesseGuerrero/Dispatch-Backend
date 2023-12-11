@@ -78,6 +78,16 @@ public class NewsletterAPI {
         return ResponseEntity.ok("Success");
     }
 
+    @PostMapping("/add-email-to-tag")
+    public ResponseEntity addEmailToTag(@RequestBody AddEmptyTagDTO addEmptyTagDTO) {
+        if(addEmptyTagDTO.getTags().length == 0)
+            return ResponseEntity.badRequest().body("No tags inserted");
+        Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        for(String tag : addEmptyTagDTO.getTags())
+            newsletter.addTag(tag);
+        return ResponseEntity.ok("Success");
+    }
+
     @PostMapping("/delete-tags")
     public ResponseEntity deleteTags(@RequestBody DeleteTagDTO deleteTagDTO) {
         if(deleteTagDTO.getTags().length == 0)
