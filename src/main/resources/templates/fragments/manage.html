@@ -25,17 +25,17 @@
             <form id="addTags" method="post">
                 <label>Add tags:</label>
                 <input type="text" name="tags" required>
-                <button type="button" onclick="(function() {postForm('/add-tag', 'addTags')})()">Submit</button>
+                <button type="button" onclick="(function() {postForm('/api/add-tag', 'addTags')})()">Submit</button>
             </form>
             <form id="deleteTags" method="post">
                 <label>Delete tags:</label>
                 <input type="text" name="tags" required>
-                <button type="button" onclick="(function() {postForm('/delete-tags', 'deleteTags')})()">Submit</button>
+                <button type="button" onclick="(function() {postForm('/api/delete-tags', 'deleteTags')})()">Submit</button>
             </form>
             <form id="addCourses" method="post">
                 <label>Add courses:</label>
                 <input type="text" name="courses" required>
-                <button type="button" onclick="(function() {postForm('/add-courses', 'addCourses')})()">Submit</button>
+                <button type="button" onclick="(function() {postForm('/api/add-courses', 'addCourses')})()">Submit</button>
             </form>
             <button type="button" onclick="(function() {deleteSubscriber('test@gmail.com')})()">Delete subscriber</button>
         </div>

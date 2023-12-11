@@ -157,7 +157,17 @@ TODO<br>
 <s>10. Delete newsletter</s>
 <br><br>
 
-Test all easy endpoints
+Test all easy endpoints<br>
+<s>1. Subscribe</s><br>
+2. Unsubscribe<br>
+3. Broadcast<br>
+4. Add empty tag<br>
+5. Add delete tag<br>
+6. Rename title<br>
+7. Rename owner<br>
+8. Rename email<br>
+9. Rename password<br>
+10. Delete newsletter
 <br><br>
 
 -Difficult<br>

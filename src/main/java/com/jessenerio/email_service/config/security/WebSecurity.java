@@ -32,7 +32,6 @@ public class WebSecurity {
                 .cors().disable()
                 .formLogin()
                 .loginPage("/signup");
-
         return http.build();// Builds security chain into rules for a set of urls
     }
 

@@ -31,7 +31,7 @@ public class NewsletterService implements UserDetailsManager {
 
     @Override
     public void updateUser(UserDetails newsletter) {
-        newsletterRepository.updateNewsletter(((Newsletter) newsletter).getId(), (Newsletter) newsletter);
+        newsletterRepository.updateNewsletter((Newsletter) newsletter);
     }
 
     public void updateNewsletter(UserDetails newsletter) {
@@ -69,7 +69,7 @@ public class NewsletterService implements UserDetailsManager {
         newsletter.setPassword(encodedNewPassword);
 
         // Save the updated newsletter to the repository
-        newsletterRepository.updateNewsletter(newsletter.getId(), newsletter);
+        newsletterRepository.updateNewsletter(newsletter);
     }
 
     @Override

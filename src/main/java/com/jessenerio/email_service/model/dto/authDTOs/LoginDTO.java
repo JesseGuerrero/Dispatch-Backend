@@ -1,10 +1,6 @@
 package com.jessenerio.email_service.model.dto.authDTOs;
 
 import lombok.Getter;
-import lombok.Setter;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 import static com.jessenerio.email_service.util.Utils.decodeBase64;
 import static com.jessenerio.email_service.util.Utils.toTitleCase;

@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,7 +50,7 @@ public class NewsletterAPI {
         return ResponseEntity.ok("Success");
     }
     @PostMapping("/broadcast")
-    public ResponseEntity broadcast(BroadcastToTagDTO broadcastToTagDTO) {
+    public ResponseEntity broadcast(@RequestBody BroadcastToTagDTO broadcastToTagDTO) {
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         StringBuilder successfulTags = new StringBuilder();
         for (String tagKey : broadcastToTagDTO.getTags()) {
@@ -68,7 +69,7 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/add-tag")
-    public ResponseEntity addTag(AddEmptyTagDTO addEmptyTagDTO) {
+    public ResponseEntity addTag(@RequestBody AddEmptyTagDTO addEmptyTagDTO) {
         if(addEmptyTagDTO.getTags().length == 0)
             return ResponseEntity.badRequest().body("No tags inserted");
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -78,7 +79,7 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/delete-tags")
-    public ResponseEntity deleteTags(DeleteTagDTO deleteTagDTO) {
+    public ResponseEntity deleteTags(@RequestBody DeleteTagDTO deleteTagDTO) {
         if(deleteTagDTO.getTags().length == 0)
             return ResponseEntity.badRequest().body("No tags removed");
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -102,17 +103,20 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/add-subscriber")
-    public ResponseEntity addSubscriber(AddEmailDTO addEmailDTO) {
-        if(addEmailDTO.getEmail() == "")
+    public ResponseEntity addSubscriber(@RequestBody AddEmailDTO addEmailDTO) {
+        String email = addEmailDTO.getEmail();
+        if(email == "")
             return ResponseEntity.badRequest().body("Email is invalid");
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        newsletter.addEmailContact(addEmailDTO.getEmail(), addEmailDTO.getFirstName());
+        if(newsletter.isDuplicateEmail(email))
+            return ResponseEntity.badRequest().body("Email already exists");
+        newsletter.addEmailContact(email, addEmailDTO.getFirstName());
         newsletterService.updateNewsletter(newsletter);
-        return ResponseEntity.ok(addEmailDTO.getEmail() + " added to " + newsletter.getTitle());
+        return ResponseEntity.ok(email + " added to " + newsletter.getTitle());
     }
 
     @PostMapping("/remove-subscriber")
-    public ResponseEntity addSubscriber(DeleteEmailDTO deleteEmailDTO) {
+    public ResponseEntity addSubscriber(@RequestBody DeleteEmailDTO deleteEmailDTO) {
         if(deleteEmailDTO.getEmail() == "")
             return ResponseEntity.badRequest().body("Email is invalid");
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -129,7 +133,7 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/rename-title")
-    public ResponseEntity renameTitle(RenameNewsletterTitleDTO renameNewsletterTitleDTO) {
+    public ResponseEntity renameTitle(@RequestBody RenameNewsletterTitleDTO renameNewsletterTitleDTO) {
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String originalTitle = newsletter.getTitle();
         newsletter.setTitle(renameNewsletterTitleDTO.getTitle());
@@ -138,7 +142,7 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/rename-owner")
-    public ResponseEntity renameOwner(RenameNewsletterOwnerNameDTO renameNewsletterOwnerNameDTO) {
+    public ResponseEntity renameOwner(@RequestBody RenameNewsletterOwnerNameDTO renameNewsletterOwnerNameDTO) {
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String ownerName = newsletter.getOwnerName();
         newsletter.setOwnerName(renameNewsletterOwnerNameDTO.getOwnerName());
@@ -147,7 +151,7 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/rename-email")
-    public ResponseEntity renameEmail(ChangeNewsletterEmailDTO changeNewsletterEmailDTO) {
+    public ResponseEntity renameEmail(@RequestBody ChangeNewsletterEmailDTO changeNewsletterEmailDTO) {
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         newsletter.setEmail(changeNewsletterEmailDTO.getEmail());
         newsletterService.updateNewsletter(newsletter);
@@ -155,7 +159,7 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/rename-password")
-    public ResponseEntity renamePassword(ChangeNewsletterPasswordDTO changeNewsletterPasswordDTO) {
+    public ResponseEntity renamePassword(@RequestBody ChangeNewsletterPasswordDTO changeNewsletterPasswordDTO) {
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         newsletter.setPassword(changeNewsletterPasswordDTO.getPassword());
         newsletterService.updateNewsletter(newsletter);

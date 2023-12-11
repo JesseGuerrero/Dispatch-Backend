@@ -1,5 +1,6 @@
 package com.jessenerio.email_service.model.repository;
 
+import com.jessenerio.email_service.model.document.EmailContact;
 import com.jessenerio.email_service.model.document.Newsletter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -47,25 +48,8 @@ public class NewsletterRepository {
         return mongoTemplate.exists(query, Newsletter.class, "newsletters");
     }
 
-    public Newsletter updateNewsletter(String id, Newsletter newsletter) {
-        Newsletter existingNewsletter = getNewsletterById(id);
-
-        if (existingNewsletter != null) {
-            // Update the existing newsletter with the new values
-            existingNewsletter.setEmailList(newsletter.getEmailList());
-            existingNewsletter.setTags(newsletter.getTags());
-            existingNewsletter.setScheduledEmails(newsletter.getScheduledEmails());
-            existingNewsletter.setCourses(newsletter.getCourses());
-            existingNewsletter.setEmailTemplates(newsletter.getEmailTemplates());
-            existingNewsletter.setPassword(newsletter.getPassword());
-            existingNewsletter.setTitle(newsletter.getTitle());
-            existingNewsletter.setOwnerName(newsletter.getOwnerName());
-
-            // Save the updated newsletter
-            mongoTemplate.save(existingNewsletter, "newsletter");
-        }
-
-        return existingNewsletter;
+    public void updateNewsletter(Newsletter newsletter) {
+       mongoTemplate.save(newsletter, "newsletters");
     }
 
     public String deleteNewsletter(String id) {

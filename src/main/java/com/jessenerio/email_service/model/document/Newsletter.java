@@ -65,6 +65,14 @@ public class Newsletter implements UserDetails {
         emailList.add(new EmailContact(email, firstName));
     }
 
+    public boolean isDuplicateEmail(String email) {
+        for (EmailContact emailContact : emailList) {
+            if (emailContact.getEmail().equals(email))
+                return true;
+        }
+        return false;
+    }
+
     public void removeEmailContact(String email) {
         emailList.removeIf(emailContact -> emailContact.getEmail().equals(email));
     }

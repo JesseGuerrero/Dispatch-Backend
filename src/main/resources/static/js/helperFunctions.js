@@ -48,7 +48,7 @@ function postFilledFormData(endPoint, formData, responseId) {
     request.setRequestHeader("Content-Type", "application/json");
 
     // Log the JSON data before sending
-    // console.log(jsonData);
+    console.log(jsonData);
 
     request.send(jsonData);
 }

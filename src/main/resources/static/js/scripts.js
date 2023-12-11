@@ -14,7 +14,7 @@ function deleteSubscriber(email) {
     let formData = new FormData();
     formData.append('email', email); // add email from id of active subscriber in document
     let request = new XMLHttpRequest();
-    request.open("POST", "/delete-subscriber", true);
+    request.open("POST", "/api/delete-subscriber", true);
     request.send(formData);
 }
 
