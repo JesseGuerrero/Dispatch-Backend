@@ -117,12 +117,15 @@ public class NewsletterAPI {
 
     @PostMapping("/remove-subscriber")
     public ResponseEntity addSubscriber(@RequestBody DeleteEmailDTO deleteEmailDTO) {
-        if(deleteEmailDTO.getEmail() == "")
+        String email = deleteEmailDTO.getEmail();
+        if(email == "")
             return ResponseEntity.badRequest().body("Email is invalid");
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        newsletter.removeEmailContact(deleteEmailDTO.getEmail());
+        if(!newsletter.hasEmailInList(email))
+            return ResponseEntity.badRequest().body(email + " email does not exist in " + newsletter.getTitle() + " newsletter");
+        newsletter.removeEmailContact(email);
         newsletterService.updateNewsletter(newsletter);
-        return ResponseEntity.ok(deleteEmailDTO.getEmail() + " deleted from " + newsletter.getTitle());
+        return ResponseEntity.ok(email + " deleted from " + newsletter.getTitle());
     }
 
     @PostMapping("/save-email")

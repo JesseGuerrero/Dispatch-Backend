@@ -73,6 +73,13 @@ public class Newsletter implements UserDetails {
         return false;
     }
 
+    public boolean hasEmailInList(String email) {
+        for (EmailContact emailContact : emailList)
+            if (emailContact.getEmail().equalsIgnoreCase(email))
+                return true;
+        return false;
+    }
+
     public void removeEmailContact(String email) {
         emailList.removeIf(emailContact -> emailContact.getEmail().equals(email));
     }

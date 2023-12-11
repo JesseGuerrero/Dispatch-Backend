@@ -13,6 +13,12 @@
         <input type="text" name="firstName" required><br>
         <button type="button" onclick="(function() {postForm('/api/add-subscriber', 'addSubscriber', 'test-out')})()">Submit</button>
     </form>
+    <h2>Remove subscriber</h2>
+    <form id="removeSubscriber" method="post">
+        <label>Email:</label>
+        <input type="email" name="email" required><br>
+        <button type="button" onclick="(function() {postForm('/api/remove-subscriber', 'removeSubscriber', 'test-out')})()">Submit</button>
+    </form>
     <p id="test-out"></p>
 </div>
 </html>
