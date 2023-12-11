@@ -1,10 +1,10 @@
-package com.jessenerio.email_service.model.dto.newsletterDTOs;
+package com.jessenerio.email_service.model.dto.newsletter;
 
 import com.jessenerio.email_service.util.Utils;
 import lombok.Getter;
 
 @Getter
-public class RenameNewsletterOwnerNameDTO {
+public class RenameNewsletterOwnerName {
     private String ownerName;
 
     public String getOwnerName() {

@@ -3,9 +3,9 @@ package com.jessenerio.email_service.controller;
 
 import com.jessenerio.email_service.model.document.Email;
 import com.jessenerio.email_service.model.document.Newsletter;
-import com.jessenerio.email_service.model.dto.authDTOs.ForgotPasswordDTO;
-import com.jessenerio.email_service.model.dto.authDTOs.LoginDTO;
-import com.jessenerio.email_service.model.dto.authDTOs.SignupDTO;
+import com.jessenerio.email_service.model.dto.auth.ForgotPassword;
+import com.jessenerio.email_service.model.dto.auth.Login;
+import com.jessenerio.email_service.model.dto.auth.Signup;
 import com.jessenerio.email_service.model.service.EMailService;
 import com.jessenerio.email_service.model.service.NewsletterService;
 import com.jessenerio.email_service.util.Utils;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -47,7 +46,7 @@ public class AuthAPI {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody SignupDTO signupDTO) {
+    public ResponseEntity register(@RequestBody Signup signupDTO) {
         if (newsletterService.isDuplicateNewsletter(signupDTO.getTitle()))
             return ResponseEntity.badRequest().body("Newsletter title already exists");
 
@@ -69,7 +68,7 @@ public class AuthAPI {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<String> login(@RequestBody Login loginDTO) {
         Newsletter newsletter = newsletterService.getNewsLetterByTitle(loginDTO.getTitle());
         if (newsletter == null)
             return ResponseEntity.badRequest().body("Cannot find newsletter with that title");
@@ -86,7 +85,7 @@ public class AuthAPI {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> loginTemp(ForgotPasswordDTO forgotPasswordDTO) {
+    public ResponseEntity<String> loginTemp(ForgotPassword forgotPasswordDTO) {
         if (forgotPasswordDTO.getTitle() == null || forgotPasswordDTO.getTitle().isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid request");
         }

@@ -1,12 +1,10 @@
-package com.jessenerio.email_service.model.dto.newsletterDTOs;
+package com.jessenerio.email_service.model.dto.newsletter;
 
 import lombok.Getter;
 
 @Getter
-public class BroadcastToTagDTO {
+public class DeleteTag {
     private String tags;
-    private String subject;
-    private String body;
 
     public String[] getTags() {
         tags = tags.replace(" ", "").toLowerCase();

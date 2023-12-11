@@ -1,9 +1,9 @@
-package com.jessenerio.email_service.model.dto.newsletterDTOs;
+package com.jessenerio.email_service.model.dto.newsletter;
 
 import lombok.Getter;
 
 @Getter
-public class AddEmptyTagDTO {
+public class AddEmptyTag {
     private String tags;
 
     public String[] getTags() {

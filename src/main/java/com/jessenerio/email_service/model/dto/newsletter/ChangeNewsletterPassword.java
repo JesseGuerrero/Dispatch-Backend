@@ -1,11 +1,11 @@
-package com.jessenerio.email_service.model.dto.newsletterDTOs;
+package com.jessenerio.email_service.model.dto.newsletter;
 
 import lombok.Getter;
 
 import static com.jessenerio.email_service.util.Utils.decodeBase64;
 
 @Getter
-public class ChangeNewsletterPasswordDTO {
+public class ChangeNewsletterPassword {
     private String password;
 
     public String getPassword() {
