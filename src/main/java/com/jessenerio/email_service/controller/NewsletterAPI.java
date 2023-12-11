@@ -5,6 +5,7 @@ import com.jessenerio.email_service.model.document.Email;
 import com.jessenerio.email_service.model.document.Newsletter;
 import com.jessenerio.email_service.model.document.Tag;
 import com.jessenerio.email_service.model.dto.newsletterDTOs.AddEmailDTO;
+import com.jessenerio.email_service.model.dto.newsletterDTOs.AddEmailToTagDTO;
 import com.jessenerio.email_service.model.dto.newsletterDTOs.AddEmptyTagDTO;
 import com.jessenerio.email_service.model.dto.newsletterDTOs.BroadcastToTagDTO;
 import com.jessenerio.email_service.model.dto.newsletterDTOs.ChangeNewsletterEmailDTO;
@@ -79,13 +80,19 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/add-email-to-tag")
-    public ResponseEntity addEmailToTag(@RequestBody AddEmptyTagDTO addEmptyTagDTO) {
-        if(addEmptyTagDTO.getTags().length == 0)
-            return ResponseEntity.badRequest().body("No tags inserted");
+    public ResponseEntity addEmailToTag(@RequestBody AddEmailToTagDTO addEmailToTagDTO) {
+        String email = addEmailToTagDTO.getEmail();
+        String[] tags = addEmailToTagDTO.getTags();
+        if(tags.length == 0)
+            return ResponseEntity.badRequest().body("No tags detected from input");
+        if(email == "")
+            return ResponseEntity.badRequest().body("Email is invalid");
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        for(String tag : addEmptyTagDTO.getTags())
-            newsletter.addTag(tag);
-        return ResponseEntity.ok("Success");
+        if(!newsletter.hasEmailInList(email))
+            return ResponseEntity.badRequest().body(email + " not in the " + newsletter.getTitle() + " newsletter list");
+        StringBuilder successMessage = newsletter.addEmailToTags(email, tags);
+        newsletterService.updateNewsletter(newsletter);
+        return ResponseEntity.ok(successMessage);
     }
 
     @PostMapping("/delete-tags")

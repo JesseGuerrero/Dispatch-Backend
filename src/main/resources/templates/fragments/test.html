@@ -19,6 +19,15 @@
         <input type="email" name="email" required><br>
         <button type="button" onclick="(function() {postForm('/api/remove-subscriber', 'removeSubscriber', 'test-out')})()">Submit</button>
     </form>
+    <h2>Add email to tag</h2>
+    <form id="addEmailToTag" method="post">
+        <label>Email:</label>
+        <input type="email" name="email" required><br>
+
+        <label>Tags:</label>
+        <input type="text" name="tags" required><br>
+        <button type="button" onclick="(function() {postForm('/api/add-email-to-tag', 'addEmailToTag', 'test-out')})()">Submit</button>
+    </form>
     <p id="test-out"></p>
 </div>
 </html>

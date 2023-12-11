@@ -57,6 +57,42 @@ public class Newsletter implements UserDetails {
         tags.put(tagName, new Tag());
     }
 
+    private void addEmailToTag(String email, String tagName) {
+        if(!tags.containsKey(tagName))
+            tags.put(tagName, new Tag());
+        tags.get(tagName).addEmail(email);
+    }
+
+    public StringBuilder addEmailToTags(String email, String[] tags) {
+        StringBuilder successfulTags = new StringBuilder();
+        StringBuilder duplicateTags = new StringBuilder();
+        StringBuilder addedTags = new StringBuilder();
+        for(String tag : tags) {
+            if(!getTags().containsKey(tag)) {
+                addEmailToTag(email, tag);
+                addedTags.append(tag).append(", ");
+                successfulTags.append(tag).append(", ");
+            } else if(!isEmailInTag(email, tag)) {
+                addEmailToTag(email, tag);
+                successfulTags.append(tag).append(", ");
+            } else if(isEmailInTag(email, tag)) {
+                duplicateTags.append(tag).append(", ");
+            }
+        }
+        StringBuilder successMessage = new StringBuilder();
+        if(successfulTags.length() > 0)
+            successMessage.append("Sucessfully added ").append(email).append(" to ").append(successfulTags).append("\n");
+        if(duplicateTags.length() > 0)
+            successMessage.append(email).append(" duplicate in tags: ").append(duplicateTags).append("\n");
+        if(addedTags.length() > 0)
+            successMessage.append("Added ").append(email).append(" to new tags: ").append(addedTags);
+        return successMessage;
+    }
+
+    public boolean isEmailInTag(String email, String tagName) {
+        return tags.get(tagName).getEmails().contains(email);
+    }
+
     public void removeTag(String tagName) {
         tags.remove(tagName);
     }
