@@ -18,6 +18,7 @@ import com.jessenerio.email_service.model.dto.newsletter.RenameNewsletterTitle;
 import com.jessenerio.email_service.model.service.EMailService;
 import com.jessenerio.email_service.model.service.NewsletterService;
 import com.jessenerio.email_service.util.Utils;
+import com.nimbusds.jose.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api")
@@ -50,20 +52,12 @@ public class NewsletterAPI {
     @PostMapping("/broadcast")
     public ResponseEntity broadcast(@RequestBody BroadcastToTag broadcastToTag) {
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        StringBuilder successfulTags = new StringBuilder();
-        for (String tagKey : broadcastToTag.getTags()) {
-            Tag tag = newsletter.getTags().get(tagKey);
-            if (tag == null)
-                continue; // Skip if tag doesn't exist
-            successfulTags.append(tagKey).append(", ");
-            for (String email : tag.getEmails()) {
-                Email emailContent = new Email(broadcastToTag.getSubject(), broadcastToTag.getBody());
-                emailService.sendEmail(email, emailContent);
-            }
+        Pair<String, List<String>> emailResult = newsletter.getEmailsFromTags(broadcastToTag.getTags());
+        for (String email : emailResult.getRight()) {
+            Email emailContent = new Email(broadcastToTag.getSubject(), broadcastToTag.getBody());
+            emailService.sendEmail(email, emailContent);
         }
-        if (successfulTags.toString() == "")
-            return ResponseEntity.badRequest().body("No tags found");
-        return ResponseEntity.ok("Successfully broadcasted to " + successfulTags);
+        return ResponseEntity.ok(emailResult.getLeft());
     }
 
     @PostMapping("/add-tag")

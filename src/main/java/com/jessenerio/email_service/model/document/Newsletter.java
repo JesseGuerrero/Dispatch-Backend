@@ -1,5 +1,6 @@
 package com.jessenerio.email_service.model.document;
 
+import com.nimbusds.jose.util.Pair;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,6 +52,40 @@ public class Newsletter implements UserDetails {
         this.scheduledEmails = new ArrayList<>();
         this.courses = new ArrayList<>();
         this.emailTemplates = new ArrayList<>();
+    }
+
+    public boolean tagExists(String tagName) {
+        return tags.containsKey(tagName);
+    }
+
+    public Pair<String,List<String>> getEmailsFromTags(String[] tags) {
+        StringBuilder successfulTags = new StringBuilder();
+        StringBuilder tagsDontExist = new StringBuilder();
+        StringBuilder emptyTags = new StringBuilder();
+        List<String> emails = new ArrayList<>();
+        for (String tagKey : tags) {
+            if(!tagExists(tagKey)) {
+                tagsDontExist.append(tagKey).append(", ");
+                continue;
+            }
+            Tag tag = getTags().get(tagKey);
+            if(tag.getEmails().isEmpty()) {
+                emptyTags.append(tagKey).append(", ");
+                continue;
+            }
+            emails.addAll(tag.getEmails());
+            successfulTags.append(tagKey).append(", ");
+        }
+        StringBuilder successMessage = new StringBuilder();
+        if(successfulTags.length() > 0)
+            successMessage.append("Tags used: ").append(successfulTags).append("\n");
+        if(tagsDontExist.length() > 0)
+            successMessage.append("Tags didnt exist: ").append(tagsDontExist).append("\n");
+        if(emptyTags.length() > 0)
+            successMessage.append("Empty tags: ").append(emptyTags).append("\n---Emails sent---\n");
+        for(String email : emails)
+            successMessage.append(email).append(" ");
+        return Pair.of(successMessage.toString(), emails);
     }
 
     public void addTag(String tagName) {

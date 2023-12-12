@@ -160,8 +160,8 @@ TODO<br>
 Test all easy endpoints<br>
 <s>1. Subscribe</s><br>
 <s>2. Unsubscribe</s><br>
-3. Add email to tag<br>
-4. Remove email from tag<br>
+<s>3. Add email to tag</s><br>
+<s>4. Remove email from tag</s><br>
 5. Broadcast<br>
 6. Add empty tag<br>
 7. Add delete tag<br>
