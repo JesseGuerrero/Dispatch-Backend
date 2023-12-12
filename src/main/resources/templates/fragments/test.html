@@ -26,7 +26,16 @@
 
         <label>Tags:</label>
         <input type="text" name="tags" required><br>
-        <button type="button" onclick="(function() {postForm('/api/add-email-to-tag', 'addEmailToTag', 'test-out')})()">Submit</button>
+        <button type="button" onclick="(function() {postForm('/api/add-email-to-tags', 'addEmailToTag', 'test-out')})()">Submit</button>
+    </form>
+    <h2>Remove email from tags</h2>
+    <form id="removeEmailFromTags" method="post">
+        <label>Email:</label>
+        <input type="email" name="email" required><br>
+
+        <label>Tags:</label>
+        <input type="text" name="tags" required><br>
+        <button type="button" onclick="(function() {postForm('/api/remove-email-from-tag', 'removeEmailFromTags', 'test-out')})()">Submit</button>
     </form>
     <p id="test-out"></p>
 </div>

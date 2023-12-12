@@ -4,7 +4,7 @@ import com.jessenerio.email_service.util.Utils;
 import lombok.Getter;
 
 @Getter
-public class AddEmailToTag {
+public class RemoveEmailFromTags {
     private String email;
     private String tags;
 

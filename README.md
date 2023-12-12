@@ -161,14 +161,15 @@ Test all easy endpoints<br>
 <s>1. Subscribe</s><br>
 <s>2. Unsubscribe</s><br>
 3. Add email to tag<br>
-4. Broadcast<br>
-5. Add empty tag<br>
-6. Add delete tag<br>
-7. Rename title<br>
-8. Rename owner<br>
-9. Rename email<br>
-10. Rename password<br>
-11. Delete newsletter
+4. Remove email from tag<br>
+5. Broadcast<br>
+6. Add empty tag<br>
+7. Add delete tag<br>
+8. Rename title<br>
+9. Rename owner<br>
+10. Rename email<br>
+11. Rename password<br>
+12. Delete newsletter
 <br><br>
 
 -Difficult<br>

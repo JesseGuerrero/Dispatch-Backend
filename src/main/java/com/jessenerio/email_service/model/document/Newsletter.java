@@ -57,10 +57,42 @@ public class Newsletter implements UserDetails {
         tags.put(tagName, new Tag());
     }
 
+    private void removeEmailToTag(String email, String tagName) {
+        if(!tags.containsKey(tagName))
+            return;
+        if(!tags.get(tagName).getEmails().contains(email.toLowerCase()))
+            return;
+        tags.get(tagName).getEmails().remove(email.toLowerCase());
+    }
+
+    public StringBuilder removeEmailFromTags(String email, String[] tags) {
+        StringBuilder tagsDontExist = new StringBuilder();
+        StringBuilder emailNotInTag = new StringBuilder();
+        StringBuilder successfullyRemovedEmailFromTags = new StringBuilder();
+        for(String tag : tags) {
+            if(!this.tags.containsKey(tag))
+                tagsDontExist.append(tag).append(", ");
+            else if(!this.tags.get(tag).getEmails().contains(email.toLowerCase()))
+                emailNotInTag.append(email.toLowerCase()).append(" not in ").append(tag).append(" tag, ");
+            else {
+                removeEmailToTag(email, tag);
+                successfullyRemovedEmailFromTags.append(email.toLowerCase()).append(" removed from ").append(tag).append(" tag, ");
+            }
+        }
+        StringBuilder successMessage = new StringBuilder();
+        if(tagsDontExist.length() > 0)
+            successMessage.append("Tags don't exist: ").append(tagsDontExist).append("\n");
+        if(emailNotInTag.length() > 0)
+            successMessage.append("Email not in tags: ").append(emailNotInTag).append("\n");
+        if(successfullyRemovedEmailFromTags.length() > 0)
+            successMessage.append("Successfully removed: ").append(successfullyRemovedEmailFromTags);
+        return successMessage;
+    }
+
     private void addEmailToTag(String email, String tagName) {
         if(!tags.containsKey(tagName))
             tags.put(tagName, new Tag());
-        tags.get(tagName).addEmail(email);
+        tags.get(tagName).addEmail(email.toLowerCase());
     }
 
     public StringBuilder addEmailToTags(String email, String[] tags) {

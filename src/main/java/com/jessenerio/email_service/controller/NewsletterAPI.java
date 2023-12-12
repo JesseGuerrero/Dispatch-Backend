@@ -5,13 +5,14 @@ import com.jessenerio.email_service.model.document.Email;
 import com.jessenerio.email_service.model.document.Newsletter;
 import com.jessenerio.email_service.model.document.Tag;
 import com.jessenerio.email_service.model.dto.newsletter.AddEmail;
-import com.jessenerio.email_service.model.dto.newsletter.AddEmailToTag;
+import com.jessenerio.email_service.model.dto.newsletter.AddEmailToTags;
 import com.jessenerio.email_service.model.dto.newsletter.AddEmptyTag;
 import com.jessenerio.email_service.model.dto.newsletter.BroadcastToTag;
 import com.jessenerio.email_service.model.dto.newsletter.ChangeNewsletterEmail;
 import com.jessenerio.email_service.model.dto.newsletter.ChangeNewsletterPassword;
 import com.jessenerio.email_service.model.dto.newsletter.DeleteEmail;
 import com.jessenerio.email_service.model.dto.newsletter.DeleteTag;
+import com.jessenerio.email_service.model.dto.newsletter.RemoveEmailFromTags;
 import com.jessenerio.email_service.model.dto.newsletter.RenameNewsletterOwnerName;
 import com.jessenerio.email_service.model.dto.newsletter.RenameNewsletterTitle;
 import com.jessenerio.email_service.model.service.EMailService;
@@ -47,17 +48,16 @@ public class NewsletterAPI {
         return ResponseEntity.ok("Success");
     }
     @PostMapping("/broadcast")
-    public ResponseEntity broadcast(@RequestBody
-                                    BroadcastToTag broadcastToTagDTO) {
+    public ResponseEntity broadcast(@RequestBody BroadcastToTag broadcastToTag) {
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         StringBuilder successfulTags = new StringBuilder();
-        for (String tagKey : broadcastToTagDTO.getTags()) {
+        for (String tagKey : broadcastToTag.getTags()) {
             Tag tag = newsletter.getTags().get(tagKey);
             if (tag == null)
                 continue; // Skip if tag doesn't exist
             successfulTags.append(tagKey).append(", ");
             for (String email : tag.getEmails()) {
-                Email emailContent = new Email(broadcastToTagDTO.getSubject(), broadcastToTagDTO.getBody());
+                Email emailContent = new Email(broadcastToTag.getSubject(), broadcastToTag.getBody());
                 emailService.sendEmail(email, emailContent);
             }
         }
@@ -67,20 +67,19 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/add-tag")
-    public ResponseEntity addTag(@RequestBody AddEmptyTag addEmptyTagDTO) {
-        if(addEmptyTagDTO.getTags().length == 0)
+    public ResponseEntity addTag(@RequestBody AddEmptyTag addEmptyTag) {
+        if(addEmptyTag.getTags().length == 0)
             return ResponseEntity.badRequest().body("No tags inserted");
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        for(String tag : addEmptyTagDTO.getTags())
+        for(String tag : addEmptyTag.getTags())
             newsletter.addTag(tag);
         return ResponseEntity.ok("Success");
     }
 
-    @PostMapping("/add-email-to-tag")
-    public ResponseEntity addEmailToTag(@RequestBody
-                                        AddEmailToTag addEmailToTagDTO) {
-        String email = addEmailToTagDTO.getEmail();
-        String[] tags = addEmailToTagDTO.getTags();
+    @PostMapping("/add-email-to-tags")
+    public ResponseEntity addEmailToTag(@RequestBody AddEmailToTags addEmailToTags) {
+        String email = addEmailToTags.getEmail();
+        String[] tags = addEmailToTags.getTags();
         if(tags.length == 0)
             return ResponseEntity.badRequest().body("No tags detected from input");
         if(email == "")
@@ -93,12 +92,28 @@ public class NewsletterAPI {
         return ResponseEntity.ok(successMessage);
     }
 
+    @PostMapping("/remove-email-from-tag")
+    public ResponseEntity addEmailToTag(@RequestBody RemoveEmailFromTags removeEmailFromTags) {
+        String email = removeEmailFromTags.getEmail();
+        String[] tags = removeEmailFromTags.getTags();
+        if(tags.length == 0)
+            return ResponseEntity.badRequest().body("No tags detected from input");
+        if(email == "")
+            return ResponseEntity.badRequest().body("Email is invalid");
+        Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!newsletter.hasEmailInList(email))
+            return ResponseEntity.badRequest().body(email + " not in the " + newsletter.getTitle() + " newsletter list");
+        StringBuilder successMessage = newsletter.removeEmailFromTags(email, tags);
+        newsletterService.updateNewsletter(newsletter);
+        return ResponseEntity.ok(successMessage);
+    }
+
     @PostMapping("/delete-tags")
-    public ResponseEntity deleteTags(@RequestBody DeleteTag deleteTagDTO) {
-        if(deleteTagDTO.getTags().length == 0)
+    public ResponseEntity deleteTags(@RequestBody DeleteTag deleteTag) {
+        if(deleteTag.getTags().length == 0)
             return ResponseEntity.badRequest().body("No tags removed");
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        for(String tag : deleteTagDTO.getTags())
+        for(String tag : deleteTag.getTags())
             newsletter.removeTag(tag);
         return ResponseEntity.ok("Success");
     }
@@ -118,21 +133,21 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/add-subscriber")
-    public ResponseEntity addSubscriber(@RequestBody AddEmail addEmailDTO) {
-        String email = addEmailDTO.getEmail();
+    public ResponseEntity addSubscriber(@RequestBody AddEmail addEmail) {
+        String email = addEmail.getEmail();
         if(email == "")
             return ResponseEntity.badRequest().body("Email is invalid");
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(newsletter.isDuplicateEmail(email))
             return ResponseEntity.badRequest().body("Email already exists");
-        newsletter.addEmailContact(email, addEmailDTO.getFirstName());
+        newsletter.addEmailContact(email, addEmail.getFirstName());
         newsletterService.updateNewsletter(newsletter);
         return ResponseEntity.ok(email + " added to " + newsletter.getTitle());
     }
 
     @PostMapping("/remove-subscriber")
-    public ResponseEntity addSubscriber(@RequestBody DeleteEmail deleteEmailDTO) {
-        String email = deleteEmailDTO.getEmail();
+    public ResponseEntity addSubscriber(@RequestBody DeleteEmail deleteEmail) {
+        String email = deleteEmail.getEmail();
         if(email == "")
             return ResponseEntity.badRequest().body("Email is invalid");
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -151,39 +166,35 @@ public class NewsletterAPI {
     }
 
     @PostMapping("/rename-title")
-    public ResponseEntity renameTitle(@RequestBody
-                                      RenameNewsletterTitle renameNewsletterTitleDTO) {
+    public ResponseEntity renameTitle(@RequestBody RenameNewsletterTitle renameNewsletterTitle) {
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String originalTitle = newsletter.getTitle();
-        newsletter.setTitle(renameNewsletterTitleDTO.getTitle());
+        newsletter.setTitle(renameNewsletterTitle.getTitle());
         newsletterService.updateNewsletter(newsletter);
         return ResponseEntity.ok("Renamed title of " + originalTitle + " to " + newsletter.getTitle());
     }
 
     @PostMapping("/rename-owner")
-    public ResponseEntity renameOwner(@RequestBody
-                                      RenameNewsletterOwnerName renameNewsletterOwnerNameDTO) {
+    public ResponseEntity renameOwner(@RequestBody RenameNewsletterOwnerName renameNewsletterOwnerName) {
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String ownerName = newsletter.getOwnerName();
-        newsletter.setOwnerName(renameNewsletterOwnerNameDTO.getOwnerName());
+        newsletter.setOwnerName(renameNewsletterOwnerName.getOwnerName());
         newsletterService.updateNewsletter(newsletter);
         return ResponseEntity.ok("Renamed owner of " + newsletter.getTitle() + " from " + ownerName + " to " + newsletter.getOwnerName());
     }
 
     @PostMapping("/rename-email")
-    public ResponseEntity renameEmail(@RequestBody
-                                      ChangeNewsletterEmail changeNewsletterEmailDTO) {
+    public ResponseEntity renameEmail(@RequestBody ChangeNewsletterEmail changeNewsletterEmail) {
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        newsletter.setEmail(changeNewsletterEmailDTO.getEmail());
+        newsletter.setEmail(changeNewsletterEmail.getEmail());
         newsletterService.updateNewsletter(newsletter);
         return ResponseEntity.ok("Renamed recovery email of " + newsletter.getTitle() + " to " + Utils.hideEmail(newsletter.getEmail()));
     }
 
     @PostMapping("/rename-password")
-    public ResponseEntity renamePassword(@RequestBody
-                                         ChangeNewsletterPassword changeNewsletterPasswordDTO) {
+    public ResponseEntity renamePassword(@RequestBody ChangeNewsletterPassword changeNewsletterPassword) {
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        newsletter.setPassword(changeNewsletterPasswordDTO.getPassword());
+        newsletter.setPassword(changeNewsletterPassword.getPassword());
         newsletterService.updateNewsletter(newsletter);
         return ResponseEntity.ok("Successfully updated password");
     }
