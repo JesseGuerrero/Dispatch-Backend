@@ -3,7 +3,6 @@ package com.jessenerio.email_service.controller;
 
 import com.jessenerio.email_service.model.document.Email;
 import com.jessenerio.email_service.model.document.Newsletter;
-import com.jessenerio.email_service.model.document.Tag;
 import com.jessenerio.email_service.model.dto.newsletter.AddEmail;
 import com.jessenerio.email_service.model.dto.newsletter.AddEmailToTags;
 import com.jessenerio.email_service.model.dto.newsletter.AddEmptyTag;
@@ -12,6 +11,7 @@ import com.jessenerio.email_service.model.dto.newsletter.ChangeNewsletterEmail;
 import com.jessenerio.email_service.model.dto.newsletter.ChangeNewsletterPassword;
 import com.jessenerio.email_service.model.dto.newsletter.DeleteEmail;
 import com.jessenerio.email_service.model.dto.newsletter.DeleteTag;
+import com.jessenerio.email_service.model.dto.newsletter.NewsletterSetupMailSender;
 import com.jessenerio.email_service.model.dto.newsletter.RemoveEmailFromTags;
 import com.jessenerio.email_service.model.dto.newsletter.RenameNewsletterOwnerName;
 import com.jessenerio.email_service.model.dto.newsletter.RenameNewsletterTitle;
@@ -52,12 +52,12 @@ public class NewsletterAPI {
     @PostMapping("/broadcast")
     public ResponseEntity broadcast(@RequestBody BroadcastToTag broadcastToTag) {
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Pair<String, List<String>> emailResult = newsletter.getEmailsFromTags(broadcastToTag.getTags());
-        for (String email : emailResult.getRight()) {
+        Pair<String, List<String>> emailsResult = newsletter.getEmailsFromTags(broadcastToTag.getTags());
+        for (String email : emailsResult.getRight()) {
             Email emailContent = new Email(broadcastToTag.getSubject(), broadcastToTag.getBody());
-            emailService.sendEmail(email, emailContent);
+            emailService.sendEmailFromAdmin(email, emailContent);
         }
-        return ResponseEntity.ok(emailResult.getLeft());
+        return ResponseEntity.ok(emailsResult.getLeft());
     }
 
     @PostMapping("/add-tag")
@@ -193,6 +193,14 @@ public class NewsletterAPI {
         return ResponseEntity.ok("Successfully updated password");
     }
 
+    @PostMapping("/setup-newsletter-email")
+    public ResponseEntity setupNewsletterEmail(@RequestBody NewsletterSetupMailSender newsletterSetupMailSender) {
+        Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        newsletter.setPassword(newsletterSetupMailSender.getPassword());
+        newsletterService.updateNewsletter(newsletter);
+        return ResponseEntity.ok("Successfully updated password");
+    }
+
     @PostMapping("/delete-newsletter")
     public ResponseEntity deleteNewsletter(HttpServletRequest request) {
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -203,4 +211,6 @@ public class NewsletterAPI {
             session.invalidate();
         return ResponseEntity.ok("Successfully deleted " + newsletter.getTitle());
     }
+
+
 }

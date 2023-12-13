@@ -26,6 +26,8 @@ function postFilledFormData(endPoint, formData, responseId) {
     formData.forEach((value, key) => {
         if (key === 'password')
             formDataObject[key] = btoa(value);
+        else if (value.type === 'checkbox')
+            formDataObject[key] = value.checked;
         else
             formDataObject[key] = value;
     });

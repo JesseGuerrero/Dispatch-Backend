@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -34,6 +37,7 @@ public class Newsletter implements UserDetails {
     private String password;
     private String temporaryPassword;
 
+    private JavaMailSenderImpl javaMailSender;
     private List<EmailContact> emailList;
     private Map<String, Tag> tags;
     private List<ScheduledEmails> scheduledEmails;
@@ -47,6 +51,7 @@ public class Newsletter implements UserDetails {
         this.password = password;
         this.temporaryPassword = password;
 
+        this.javaMailSender = new JavaMailSenderImpl();
         this.emailList = new ArrayList<>();
         this.tags = new HashMap<>();
         this.scheduledEmails = new ArrayList<>();
@@ -62,6 +67,7 @@ public class Newsletter implements UserDetails {
         StringBuilder successfulTags = new StringBuilder();
         StringBuilder tagsDontExist = new StringBuilder();
         StringBuilder emptyTags = new StringBuilder();
+        StringBuilder emailsNotInContactList = new StringBuilder();
         List<String> emails = new ArrayList<>();
         for (String tagKey : tags) {
             if(!tagExists(tagKey)) {
@@ -76,16 +82,26 @@ public class Newsletter implements UserDetails {
             emails.addAll(tag.getEmails());
             successfulTags.append(tagKey).append(", ");
         }
+        List<String> filteredEmails = emails.stream()
+                .filter(email -> emailList.stream().anyMatch(contact -> contact.getEmail().equalsIgnoreCase(email)))
+                .collect(Collectors.toList());
+        emails.removeAll(emailList.stream().map(EmailContact::getEmail).collect(Collectors.toList()));
+        for(String email : emails)
+            emailsNotInContactList.append(email).append(", ");
+
         StringBuilder successMessage = new StringBuilder();
         if(successfulTags.length() > 0)
             successMessage.append("Tags used: ").append(successfulTags).append("\n");
         if(tagsDontExist.length() > 0)
             successMessage.append("Tags didnt exist: ").append(tagsDontExist).append("\n");
         if(emptyTags.length() > 0)
-            successMessage.append("Empty tags: ").append(emptyTags).append("\n---Emails sent---\n");
-        for(String email : emails)
+            successMessage.append("Empty tags: ").append(emptyTags).append("\n");
+        if(emailsNotInContactList.length() > 0)
+            successMessage.append("Emails not in contact list: ").append(emailsNotInContactList).append("\n");
+        successMessage.append("---Emails sent---\n");
+        for(String email : filteredEmails)
             successMessage.append(email).append(" ");
-        return Pair.of(successMessage.toString(), emails);
+        return Pair.of(successMessage.toString(), filteredEmails);
     }
 
     public void addTag(String tagName) {

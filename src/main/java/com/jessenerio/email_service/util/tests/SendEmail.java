@@ -3,7 +3,6 @@ package com.jessenerio.email_service.util.tests;
 import com.jessenerio.email_service.model.service.EMailService;
 import com.jessenerio.email_service.model.document.Email;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,7 +23,7 @@ public class SendEmail {
                 "Hello, this is a test email."
         );
 
-        emailService.sendEmail(toAddress, email);
+        emailService.sendEmailFromAdmin(toAddress, email);
 
         System.out.println("Email sent successfully!");
     }

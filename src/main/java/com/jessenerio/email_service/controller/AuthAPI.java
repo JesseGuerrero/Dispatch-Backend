@@ -95,7 +95,7 @@ public class AuthAPI {
         String temporaryPassword = Utils.generateRandomString();
         String email = Utils.hideEmail(newsletter.getEmail());
         newsletterService.setTemporaryPassword(newsletter.getTitle(), passwordEncoder.encode(temporaryPassword));
-        emailService.sendEmail(newsletter.getEmail(), new Email("Temporary Password",
+        emailService.sendEmailFromAdmin(newsletter.getEmail(), new Email("Temporary Password",
                 temporaryPassword));
         return ResponseEntity.badRequest().body("A new temporary password was sent to " + email + ". Please login with it.");
     }

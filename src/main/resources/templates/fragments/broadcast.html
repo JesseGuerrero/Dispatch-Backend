@@ -16,10 +16,11 @@
         <input type="text" name="subject" required><br>
 
         <label>Body:</label>
-        <textarea id="message" name="message" rows="4" cols="50" required></textarea><br>
+        <textarea id="message" name="body" rows="4" cols="50" required></textarea><br>
 
-        <button type="button" onclick="(function() {postForm('/api/broadcast', 'broadcaster')})()">Submit</button>
+        <button type="button" onclick="(function() {postForm('/api/broadcast', 'broadcaster', 'broadcast-out')})()">Submit</button>
     </form>
+    <p id="broadcast-out"></p>
 </div>
 
 

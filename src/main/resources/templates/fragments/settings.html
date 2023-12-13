@@ -36,6 +36,36 @@
     </form>
     <p id="password-response"></p>
 <!--    -->
+    <h1>Setup Email Newsletter</h1>
+    <form id="email-form" method="post">
+        <label>Email Nickname:</label>
+        <input type="text" name="username" required autofocus>
+        <br>
+        <label>Host:</label>
+        <input type="text" name="host" required autofocus>
+        <br>
+        <label>Port:</label>
+        <input type="text" name="port" required autofocus>
+        <br>
+        <label>Protocol:</label>
+        <input type="text" name="protocol" required autofocus>
+        <br>
+        <label>SMTP Auth:</label>
+        <input type="checkbox" name="smtpAuth" required autofocus>
+        <br>
+        <label>TLS Enable:</label>
+        <input type="checkbox" name="enableTLS" required autofocus>
+        <br>
+        <label>SSL Enable:</label>
+        <input type="checkbox" name="enableSSL" required autofocus>
+        <br>
+        <label>Password:</label>
+        <input type="password" name="password" required>
+        <br>
+        <button type="button" onclick="(function() {postForm('/api/setup-newsletter-email', 'email-form', 'email-response')})()">Submit</button>
+    </form>
+    <p id="email-response"></p>
+<!--    -->
     <button onclick="confirmDelete()">Delete newsletter</button>
     <p id="confirmation-text" style="color: orange; display: none">
         Are you sure?
