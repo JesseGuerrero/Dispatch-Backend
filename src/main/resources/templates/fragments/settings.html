@@ -62,9 +62,9 @@
         <label>Password:</label>
         <input type="password" name="password" required>
         <br>
-        <button type="button" onclick="(function() {postForm('/api/setup-newsletter-email', 'email-form', 'email-response')})()">Submit</button>
+        <button type="button" onclick="(function() {postForm('/api/setup-newsletter-email', 'email-form', 'setup-email-response')})()">Submit</button>
     </form>
-    <p id="email-response"></p>
+    <p id="setup-email-response"></p>
 <!--    -->
     <button onclick="confirmDelete()">Delete newsletter</button>
     <p id="confirmation-text" style="color: orange; display: none">

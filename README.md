@@ -162,7 +162,7 @@ Test all easy endpoints<br>
 <s>2. Unsubscribe</s><br>
 <s>3. Add email to tag</s><br>
 <s>4. Remove email from tag</s><br>
-5. Broadcast<br>
+5. Broadcast, test custom newsletter email<br>
 6. Add empty tag<br>
 7. Add delete tag<br>
 8. Rename title<br>

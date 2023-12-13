@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -13,12 +14,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 @Data
@@ -37,12 +41,12 @@ public class Newsletter implements UserDetails {
     private String password;
     private String temporaryPassword;
 
-    private JavaMailSenderImpl javaMailSender;
     private List<EmailContact> emailList;
     private Map<String, Tag> tags;
     private List<ScheduledEmails> scheduledEmails;
     private List<Course> courses;
     private List<WrittenEmail> emailTemplates;
+    private EmailSettings emailSettings;
 
     public Newsletter(String title, String ownerName, String email, String password) {
         this.title = title;
@@ -51,12 +55,30 @@ public class Newsletter implements UserDetails {
         this.password = password;
         this.temporaryPassword = password;
 
-        this.javaMailSender = new JavaMailSenderImpl();
+        this.emailSettings = new EmailSettings();
         this.emailList = new ArrayList<>();
         this.tags = new HashMap<>();
         this.scheduledEmails = new ArrayList<>();
         this.courses = new ArrayList<>();
         this.emailTemplates = new ArrayList<>();
+    }
+
+    public JavaMailSenderImpl getJavaMailSender() {
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        javaMailSender.setHost(emailSettings.getHost());
+        javaMailSender.setPort(emailSettings.getPort());
+        javaMailSender.setUsername(emailSettings.getUsername());
+        javaMailSender.setPassword(emailSettings.getPassword());
+        javaMailSender.setProtocol(emailSettings.getProtocol());
+
+        // Set additional properties for TLS, SSL, and SMTP authentication
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.put("mail.smtp.auth", String.valueOf(emailSettings.isSmtpAuth()));
+        javaMailProperties.put("mail.smtp.starttls.enable", String.valueOf(emailSettings.isEnableTLS()));
+        javaMailProperties.put("mail.smtp.ssl.enable", String.valueOf(emailSettings.isEnableSSL()));
+        javaMailSender.setJavaMailProperties(javaMailProperties);
+
+        return javaMailSender;
     }
 
     public boolean tagExists(String tagName) {

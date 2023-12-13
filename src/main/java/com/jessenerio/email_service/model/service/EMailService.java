@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -42,8 +43,9 @@ public class EMailService {
     }
 
     public void sendEmailFromNewsletter(Newsletter newsletter, String toAddress, Email email) {
+        JavaMailSenderImpl newsLetterEmail = newsletter.getJavaMailSender();
         try {
-            newsletter.getJavaMailSender().testConnection();
+            newsLetterEmail.testConnection();
         } catch (MessagingException m) {
             sendEmailFromAdmin(newsletter.getEmail(),
                     new Email(
@@ -61,7 +63,7 @@ public class EMailService {
         message.setTo(toAddress);
         message.setSubject(email.getSubject());
         message.setText(email.getBody());
-        newsletter.getJavaMailSender().send(message);
+        newsLetterEmail.send(message);
     }
 
 }
