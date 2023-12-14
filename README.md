@@ -162,14 +162,15 @@ Test all easy endpoints<br>
 <s>2. Unsubscribe</s><br>
 <s>3. Add email to tag</s><br>
 <s>4. Remove email from tag</s><br>
-5. Broadcast, test custom newsletter email<br>
-6. Add empty tag<br>
-7. Add delete tag<br>
-8. Rename title<br>
-9. Rename owner<br>
-10. Rename email<br>
-11. Rename password<br>
-12. Delete newsletter
+<s>5. test custom newsletter email</s>
+6. Broadcast, create username map<br>
+7. Add empty tag<br>
+8. Add delete tag<br>
+9. Rename title<br>
+10. Rename owner<br>
+11. Rename email<br>
+12. Rename password<br>
+13. Delete newsletter
 <br><br>
 
 -Difficult<br>
