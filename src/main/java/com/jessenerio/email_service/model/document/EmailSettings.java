@@ -9,19 +9,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailSettings {
-    private String username;
-    private String host;
-    private int port;
-    private String protocol;
-    private boolean smtpAuth;
-    private boolean enableTLS;
-    private boolean enableSSL;
-    private String password;
+    private String username = "";
+    private String host = "";
+    private int port = 0;
+    private String protocol = "";
+    private boolean smtpAuth = true;
+    private boolean enableTLS = true;
+    private boolean enableSSL = true;
+    private String password = "";
     public String getUsername() {
         return Utils.toTitleCase(username);
     }
 
     public String getPassword() {
-        return Utils.decodeBase64(password);
+        return password;
     }
 }

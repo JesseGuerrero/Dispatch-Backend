@@ -4,15 +4,12 @@ import com.jessenerio.email_service.model.document.Email;
 import com.jessenerio.email_service.model.document.Newsletter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class EMailService {
@@ -42,10 +39,10 @@ public class EMailService {
         adminJavaMailSender.send(message);
     }
 
-    public void sendEmailFromNewsletter(Newsletter newsletter, String toAddress, Email email) {
-        JavaMailSenderImpl newsLetterEmail = newsletter.getJavaMailSender();
+    public void sendEmailFromNewsletter(Newsletter newsletter, String username, String toAddress, Email email) {
+        JavaMailSenderImpl newsletterEmail = newsletter.getNewsletterUserEmail(username);
         try {
-            newsLetterEmail.testConnection();
+            newsletterEmail.testConnection();
         } catch (MessagingException m) {
             sendEmailFromAdmin(newsletter.getEmail(),
                     new Email(
@@ -56,14 +53,14 @@ public class EMailService {
             return;
         }
         SimpleMailMessage message = new SimpleMailMessage();
-        String fromAddress = newsletter.getEmail();
-        String fromNickname = newsletter.getOwnerName();
+        String fromAddress = newsletterEmail.getUsername(); //Actually the email address
+        String fromNickname = username;
         String address = fromNickname == null || fromNickname.length() == 0 ? fromAddress : fromNickname + " <" + fromAddress + ">";
         message.setFrom(address);
         message.setTo(toAddress);
         message.setSubject(email.getSubject());
         message.setText(email.getBody());
-        newsLetterEmail.send(message);
+        newsletterEmail.send(message);
     }
 
 }

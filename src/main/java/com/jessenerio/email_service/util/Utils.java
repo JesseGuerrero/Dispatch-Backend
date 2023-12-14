@@ -21,6 +21,8 @@ public class Utils {
     }
 
     public static String toTitleCase(String str) {
+        if(str == null || str.isEmpty())
+            return str;
         String[] words = str.split(" ");
         StringBuilder sb = new StringBuilder();
         for (String word : words) {

@@ -6,16 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -46,7 +41,7 @@ public class Newsletter implements UserDetails {
     private List<ScheduledEmails> scheduledEmails;
     private List<Course> courses;
     private List<WrittenEmail> emailTemplates;
-    private EmailSettings emailSettings;
+    private Map<String, EmailSettings> emailSettings;
 
     public Newsletter(String title, String ownerName, String email, String password) {
         this.title = title;
@@ -55,7 +50,7 @@ public class Newsletter implements UserDetails {
         this.password = password;
         this.temporaryPassword = password;
 
-        this.emailSettings = new EmailSettings();
+        this.emailSettings = new HashMap<>();
         this.emailList = new ArrayList<>();
         this.tags = new HashMap<>();
         this.scheduledEmails = new ArrayList<>();
@@ -63,22 +58,26 @@ public class Newsletter implements UserDetails {
         this.emailTemplates = new ArrayList<>();
     }
 
-    public JavaMailSenderImpl getJavaMailSender() {
+    public JavaMailSenderImpl getNewsletterUserEmail(String newsletterUser) {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost(emailSettings.getHost());
-        javaMailSender.setPort(emailSettings.getPort());
-        javaMailSender.setUsername(emailSettings.getUsername());
-        javaMailSender.setPassword(emailSettings.getPassword());
-        javaMailSender.setProtocol(emailSettings.getProtocol());
+        javaMailSender.setHost(emailSettings.get(newsletterUser).getHost());
+        javaMailSender.setPort(emailSettings.get(newsletterUser).getPort());
+        javaMailSender.setUsername(emailSettings.get(newsletterUser).getUsername());
+        javaMailSender.setPassword(emailSettings.get(newsletterUser).getPassword());
+        javaMailSender.setProtocol(emailSettings.get(newsletterUser).getProtocol());
 
         // Set additional properties for TLS, SSL, and SMTP authentication
         Properties javaMailProperties = new Properties();
-        javaMailProperties.put("mail.smtp.auth", String.valueOf(emailSettings.isSmtpAuth()));
-        javaMailProperties.put("mail.smtp.starttls.enable", String.valueOf(emailSettings.isEnableTLS()));
-        javaMailProperties.put("mail.smtp.ssl.enable", String.valueOf(emailSettings.isEnableSSL()));
+        javaMailProperties.put("mail.smtp.auth", String.valueOf(emailSettings.get(newsletterUser).isSmtpAuth()));
+        javaMailProperties.put("mail.smtp.starttls.enable", String.valueOf(emailSettings.get(newsletterUser).isEnableTLS()));
+        javaMailProperties.put("mail.smtp.ssl.enable", String.valueOf(emailSettings.get(newsletterUser).isEnableSSL()));
         javaMailSender.setJavaMailProperties(javaMailProperties);
 
         return javaMailSender;
+    }
+
+    public void setEmailSettings(String newsletterUser, EmailSettings emailSettings) {
+        this.emailSettings.put(newsletterUser, emailSettings);
     }
 
     public boolean tagExists(String tagName) {

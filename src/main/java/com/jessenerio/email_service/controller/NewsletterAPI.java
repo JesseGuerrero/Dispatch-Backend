@@ -2,6 +2,7 @@ package com.jessenerio.email_service.controller;
 
 
 import com.jessenerio.email_service.model.document.Email;
+import com.jessenerio.email_service.model.document.EmailSettings;
 import com.jessenerio.email_service.model.document.Newsletter;
 import com.jessenerio.email_service.model.dto.newsletter.AddEmail;
 import com.jessenerio.email_service.model.dto.newsletter.AddEmailToTags;
@@ -195,10 +196,26 @@ public class NewsletterAPI {
 
     @PostMapping("/setup-newsletter-email")
     public ResponseEntity setupNewsletterEmail(@RequestBody NewsletterSetupMailSender newsletterSetupMailSender) {
+        String email = newsletterSetupMailSender.getEmail();
+        String username = newsletterSetupMailSender.getUsername();
+        if(email == null || email.length() == 0)
+            return ResponseEntity.badRequest().body("Email is invalid");
+        if(username == null || username.length() == 0)
+            return ResponseEntity.badRequest().body("Username is invalid");
         Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        newsletter.setPassword(newsletterSetupMailSender.getPassword());
+        EmailSettings emailSettings = new EmailSettings();
+        emailSettings.setUsername(email);
+        emailSettings.setHost(newsletterSetupMailSender.getHost());
+        emailSettings.setPort(newsletterSetupMailSender.getPort());
+        emailSettings.setProtocol(newsletterSetupMailSender.getProtocol());
+        emailSettings.setSmtpAuth(newsletterSetupMailSender.isSmtpAuth());
+        emailSettings.setEnableTLS(newsletterSetupMailSender.isEnableTLS());
+        emailSettings.setEnableSSL(newsletterSetupMailSender.isEnableSSL());
+        emailSettings.setPassword(newsletterSetupMailSender.getPassword());
+        newsletter.setEmailSettings(username, emailSettings);
         newsletterService.updateNewsletter(newsletter);
-        return ResponseEntity.ok("Successfully updated password");
+        emailService.sendEmailFromNewsletter(newsletter, username, email, new Email("Newsletter Email Settings", "Successfully updated newsletter email settings."));
+        return ResponseEntity.ok("Successfully updated newsletter email settings. A test email was sent to " + email);
     }
 
     @PostMapping("/delete-newsletter")

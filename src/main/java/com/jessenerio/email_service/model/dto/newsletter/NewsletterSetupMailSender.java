@@ -6,12 +6,13 @@ import lombok.Getter;
 @Getter
 public class NewsletterSetupMailSender {
     private String username;
+    private String email;
     private String host;
     private int port;
     private String protocol;
-    private boolean smtpAuth;
-    private boolean enableTLS;
-    private boolean enableSSL;
+    private String smtpAuth;
+    private String enableTLS;
+    private String enableSSL;
     private String password;
 
     public String getUsername() {
@@ -20,5 +21,23 @@ public class NewsletterSetupMailSender {
 
     public String getPassword() {
         return Utils.decodeBase64(password);
+    }
+
+    public boolean isSmtpAuth() {
+        return smtpAuth != null;
+    }
+
+    public boolean isEnableTLS() {
+        return enableTLS != null;
+    }
+
+    public boolean isEnableSSL() {
+        return enableSSL != null;
+    }
+
+    public String getEmail() {
+        if(Utils.isValidEmail(email))
+            return email.toLowerCase();
+        return "";
     }
 }
