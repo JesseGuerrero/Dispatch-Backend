@@ -172,28 +172,28 @@ Test all easy endpoints<br>
 <s>12. Rename password</s><br>
 <br><br>
 
-#9 Create a React Typescript frontend for above API
+#9 Create a React Typescript frontend for above API<br>
+-Setup React Typescript<br>
+-Setup one run for backend and frontend<br>
+-Copy ConvertKit frontend for now<br>
+-Add basic backend functions to frontend<br>
 <br><br>
 
--Difficultend points<br>
+
+#10 Create difficult functionality<br>
 1. Delete newsletter
 2. Add scheduled e-mail<br>
-3. Save and write email<br>
+3. Save and write email MIME<br>
 4. Add/update course
 <br><br>
 
-#9: Create automation backend<br>
+#11: Create automation backend<br>
 -Send scheduled e-mails noon<br>
 -Check daily course e-mails midnight<br>
--Follow document stages<br><br>
+-Courses follow document stages<br><br>
 
-#10 Update to latest<br>
+#12 Update to latest<br>
 -Update to latest Gradle<br>
 -Update to latest Spring boot and Java 21<br>
 -Create email list exporter for other services<br>
 -Create backup system<br>
-
-change user to site,
-change last name to site name,
-keep first name for emails, lower case then title each word in site name,
-check unique site name only
