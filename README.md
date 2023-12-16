@@ -163,20 +163,23 @@ Test all easy endpoints<br>
 <s>3. Add email to tag</s><br>
 <s>4. Remove email from tag</s><br>
 <s>5. test custom newsletter email</s>
-6. Broadcast, create username map<br>
-7. Add empty tag<br>
-8. Add delete tag<br>
-9. Rename title<br>
-10. Rename owner<br>
-11. Rename email<br>
-12. Rename password<br>
-13. Delete newsletter
+<s>6. Broadcast, create username map</s><br>
+<s>7. Add empty tag</s><br>
+<s>8. Add delete tag</s><br>
+<s>9. Rename title</s><br>
+<s>10. Rename owner</s><br>
+<s>11. Rename email</s><br>
+<s>12. Rename password</s><br>
 <br><br>
 
--Difficult<br>
-1. Add scheduled e-mail<br>
-2. Save and write email<br>
-3. Add/update course
+#9 Create a React Typescript frontend for above API
+<br><br>
+
+-Difficultend points<br>
+1. Delete newsletter
+2. Add scheduled e-mail<br>
+3. Save and write email<br>
+4. Add/update course
 <br><br>
 
 #9: Create automation backend<br>

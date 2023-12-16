@@ -72,6 +72,16 @@ public class NewsletterService implements UserDetailsManager {
         newsletterRepository.updateNewsletter(newsletter);
     }
 
+
+    public void setPassword(String newPassword) {
+        Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // Encode and set the new password
+        String encodedNewPassword = passwordEncoder.encode(newPassword);
+        newsletter.setPassword(encodedNewPassword);
+
+        // Save the updated newsletter to the repository
+        newsletterRepository.updateNewsletter(newsletter);
+    }
     @Override
     public boolean userExists(String title) {
         return newsletterRepository.existsByTitle(title);

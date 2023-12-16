@@ -126,7 +126,8 @@ public class Newsletter implements UserDetails {
     }
 
     public void addTag(String tagName) {
-        tags.put(tagName, new Tag());
+        if(!tags.containsKey(tagName))
+            tags.put(tagName, new Tag());
     }
 
     private void removeEmailToTag(String email, String tagName) {
@@ -198,7 +199,8 @@ public class Newsletter implements UserDetails {
     }
 
     public void removeTag(String tagName) {
-        tags.remove(tagName);
+        if(tags.containsKey(tagName))
+            tags.remove(tagName);
     }
 
     public void addEmailContact(String email, String firstName) {

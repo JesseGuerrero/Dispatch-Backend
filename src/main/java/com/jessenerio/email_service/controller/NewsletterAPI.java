@@ -23,6 +23,7 @@ import com.nimbusds.jose.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +39,8 @@ public class NewsletterAPI {
 
     private NewsletterService newsletterService;
     private EMailService emailService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     public NewsletterAPI(NewsletterService newsletterService, EMailService emailService) {
@@ -52,11 +55,18 @@ public class NewsletterAPI {
     }
     @PostMapping("/broadcast")
     public ResponseEntity broadcast(@RequestBody BroadcastToTag broadcastToTag) {
+        String username = broadcastToTag.getFromUsername();
+        if(username == null || username.length() == 0)
+            return ResponseEntity.badRequest().body("Username is invalid");
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Pair<String, List<String>> emailsResult = newsletter.getEmailsFromTags(broadcastToTag.getTags());
-        for (String email : emailsResult.getRight()) {
-            Email emailContent = new Email(broadcastToTag.getSubject(), broadcastToTag.getBody());
-            emailService.sendEmailFromAdmin(email, emailContent);
+        try {
+            for (String email : emailsResult.getRight()) {
+                Email emailContent = new Email(broadcastToTag.getSubject(), broadcastToTag.getBody());
+                emailService.sendEmailFromNewsletter(newsletter, username, email, emailContent);
+            }
+        } catch(NullPointerException e) {
+            return ResponseEntity.badRequest().body("Username unknown");
         }
         return ResponseEntity.ok(emailsResult.getLeft());
     }
@@ -66,9 +76,23 @@ public class NewsletterAPI {
         if(addEmptyTag.getTags().length == 0)
             return ResponseEntity.badRequest().body("No tags inserted");
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        StringBuilder existMessage = new StringBuilder();
+        StringBuilder tagsAdded = new StringBuilder();
         for(String tag : addEmptyTag.getTags())
-            newsletter.addTag(tag);
-        return ResponseEntity.ok("Success");
+            if(newsletter.tagExists(tag))
+                existMessage.append(tag).append(", ");
+            else {
+                newsletter.addTag(tag);
+                tagsAdded.append(tag).append(", ");
+            }
+        newsletterService.updateNewsletter(newsletter);
+        StringBuilder successMessage = new StringBuilder();
+        if(existMessage.length() > 0)
+            successMessage.append("Tags already exist: ").append(existMessage + "\n");
+        if(tagsAdded.length() > 0)
+            successMessage.append("Tags added: ").append(tagsAdded + "\n");
+
+        return ResponseEntity.ok("Success \n" + successMessage);
     }
 
     @PostMapping("/add-email-to-tags")
@@ -108,9 +132,22 @@ public class NewsletterAPI {
         if(deleteTag.getTags().length == 0)
             return ResponseEntity.badRequest().body("No tags removed");
         Newsletter newsletter = (Newsletter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        StringBuilder dontExistMessage = new StringBuilder();
+        StringBuilder tagsDeleted = new StringBuilder();
         for(String tag : deleteTag.getTags())
-            newsletter.removeTag(tag);
-        return ResponseEntity.ok("Success");
+            if(!newsletter.tagExists(tag))
+                dontExistMessage.append(tag).append(", ");
+            else {
+                newsletter.removeTag(tag);
+                tagsDeleted.append(tag).append(", ");
+            }
+        newsletterService.updateNewsletter(newsletter);
+        StringBuilder successMessage = new StringBuilder();
+        if(dontExistMessage.length() > 0)
+            successMessage.append("Tags do not exist: ").append(dontExistMessage + "\n");
+        if(tagsDeleted.length() > 0)
+            successMessage.append("Tags deleted: ").append(tagsDeleted + "\n");
+        return ResponseEntity.ok("Success\n" + successMessage);
     }
 
     @PostMapping("/add-courses")
@@ -188,9 +225,7 @@ public class NewsletterAPI {
 
     @PostMapping("/rename-password")
     public ResponseEntity renamePassword(@RequestBody ChangeNewsletterPassword changeNewsletterPassword) {
-        Newsletter newsletter = (Newsletter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        newsletter.setPassword(changeNewsletterPassword.getPassword());
-        newsletterService.updateNewsletter(newsletter);
+        newsletterService.setPassword(changeNewsletterPassword.getPassword());
         return ResponseEntity.ok("Successfully updated password");
     }
 
