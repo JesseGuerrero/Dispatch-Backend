@@ -137,36 +137,35 @@
 - ~~Do a check if the temp password is correct and manually login~~
 
 ### 8: Create Newsletter API
-- Do all easy endpoints first
-    - Subscribe
-    - Unsubscribe
-    - Broadcast
-    - Add empty tag
-    - Add delete tag
-    - Rename title
-    - Rename owner
-    - Rename email
-    - Rename password
-    - Delete newsletter
+- ~~Subscribe~~
+- ~~Unsubscribe~~
+- ~~Broadcast~~
+- ~~Add empty tag~~
+- ~~Add delete tag~~
+- ~~Rename title~~
+- ~~Rename owner~~
+- ~~Rename email~~
+- ~~Rename password~~
+- ~~Delete newsletter~~
 
 Test all easy endpoints
-- Subscribe
-- Unsubscribe
-- Add email to tag
-- Remove email from tag
-- Test custom newsletter email
-- Broadcast, create username map
-- Add empty tag
-- Add delete tag
-- Rename title
-- Rename owner
-- Rename email
-- Rename password
+- ~~Subscribe~~
+- ~~Unsubscribe~~
+- ~~Add email to tag~~
+- ~~Remove email from tag~~
+- ~~Test custom newsletter email~~
+- ~~Broadcast, create username map~~
+- ~~Add empty tag~~
+- ~~Add delete tag~~
+- ~~Rename title~~
+- ~~Rename owner~~
+- ~~Rename email~~
+- ~~Rename password~~
 
 ### 9. Create a React Typescript frontend for the above API
-- Setup React Typescript
-- Setup one run for backend and frontend
-- Copy ConvertKit frontend for now
+- ~~Setup React Typescript~~
+- ~~Setup one run for backend and frontend~~
+- Start on Material UI template
 - Add basic backend functions to frontend
 
 ### 10. Create difficult functionality
