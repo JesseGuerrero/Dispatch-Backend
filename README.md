@@ -1,32 +1,30 @@
-An open-source email server for your self-hosting needs. <br><br>
+# Self-Hosted Email Server Project TODO List
 
-General rules:<br>
-*First-name is title case<br>
-*everything else is lower case<br>
-*dates are processed as strings and only refer to that day and not the time of day.<br>
-*dates are in the format YYYY-MM-DD<br>
-*Scheduled e-mails are sent at noon<br>
-*Course e-mails are sent at midnight<br>
-*All e-mails are sent in the timezone of the server<br>
-*E-mails missed before the date are sent at the next scheduled time<br>
-*At the end of the course, the course is added as a tag "course course-name" to subscriber<br>
-*Courses in mongo are lower case but are displayed as title case<br>
-<br>
+## General Rules:
+- First-name is title case.
+- Everything else is lowercase.
+- Dates are processed as strings and only refer to that day and not the time of day.
+- Dates are in the format YYYY-MM-DD.
+- Scheduled e-mails are sent at noon.
+- Course e-mails are sent at midnight.
+- All e-mails are sent in the timezone of the server.
+- E-mails missed before the date are sent at the next scheduled time.
+- At the end of the course, the course is added as a tag "course course-name" to subscriber.
+- Courses in MongoDB are lowercase but are displayed as title case.
 
-TODO<br>
-#1: Create frontend<br>
-<s>-Subscribe to newsletter form</s><br>
-<s>-Subscriber list delete/tag-up form</s><br>
-<s>-E-mail writing form input</s><br>
-<s>-Written e-mails saving form</s><br>
-<s>-Broadcast to tag form</s><br>
-<s>-Automatic scheduler in front-end</s><br>
+## TODO
 
+### 1. Create frontend
+- ~~Subscribe to newsletter form~~
+- ~~Subscriber list delete/tag-up form~~
+- ~~E-mail writing form input~~
+- ~~Written e-mails saving form~~
+- ~~Broadcast to tag form~~
+- ~~Automatic scheduler in front-end~~
 
-
-#2: Create subscriber class<br>
-<s>MongoDB Documents</s><br>
-<s>Subscribers collection, subscriber document:</s><br>
+### 2. Create subscriber class
+- ~~MongoDB Documents~~
+- ~~Subscribers collection, subscriber document:~~
 ```JSON
 {
   "name": "",
@@ -73,14 +71,14 @@ TODO<br>
           }
         ],
         "stages": {
-            "1": [
-              "John@gmail.com",
-              "Jane@gmail.com"
-            ],
-            "2": [
-              "Peter@gmail.com",
-              "Joe@gmail.com"
-            ]
+          "1": [
+            "John@gmail.com",
+            "Jane@gmail.com"
+          ],
+          "2": [
+            "Peter@gmail.com",
+            "Joe@gmail.com"
+          ]
         }
       }
     },
@@ -121,79 +119,69 @@ TODO<br>
   }
 }
 ```
-<br><br>
+### 5. Create user authentication with each user being a customer
+- ~~Try https://github.com/aliyusahaboadam/Registration-and-Login-Application~~
+- ~~Filter homepage, signup & login only clickable by being logged in with Spring security~~
+- ~~Make every other page redirect to login~~
+- ~~Test all security updates~~
+- ~~Create email and username unique on register~~
+- ~~Check if CustomErrorController is needed~~
 
-#5 Create user authentication with each user being a customer<br>
-<s>-Try https://github.com/aliyusahaboadam/Registration-and-Login-Application </s><br>
-<s>-Filter homepage, signup & login only clickable by being logged in with Spring security</s><br>
-<s>     -Make every other page redirect to login</s><br><br>
+### 6. Create user authentication part 2
+- ~~Create Sign-up page for creating customers~~
+- ~~Create Login page with signup link~~
+- ~~Make Spring use Mongo Customers to login~~
+- ~~Test forgot password~~
+- ~~Create Forgot password form on the same page as login. Use a separate post request.~~
+- ~~Create temporary password on wrong password to email from newsletter~~
+- ~~Do a check if the temp password is correct and manually login~~
 
-<s>-Test all security updates</s><br>
-<s>-Create email and username unique on register</s><br>
-<s>-Check if CustomErrorController is needed</s><br>
-<br><br>
+### 8: Create Newsletter API
+- Do all easy endpoints first
+    - Subscribe
+    - Unsubscribe
+    - Broadcast
+    - Add empty tag
+    - Add delete tag
+    - Rename title
+    - Rename owner
+    - Rename email
+    - Rename password
+    - Delete newsletter
 
-#6 Create user authentication part 2<br>
-<s>-Create Sign up page for creating customers</s><br>
-<s>-Create Login page with signup link</s><br>
-<s>-Make Spring use Mongo Customers to login</s><br> 
-<s>-test forgot password</s><br>
-<s>-Create Forgot password form on same page as login. Use a seperate post request.</s><br>
-<s>-Create temporary password on wrong password to email from newsletter</s><br>
-<s>-Do a check if temp password is correct and manually login</s><br>
-<br><br>
+Test all easy endpoints
+- Subscribe
+- Unsubscribe
+- Add email to tag
+- Remove email from tag
+- Test custom newsletter email
+- Broadcast, create username map
+- Add empty tag
+- Add delete tag
+- Rename title
+- Rename owner
+- Rename email
+- Rename password
 
-#8: Create Newsletter API<br>
--Do all easy endpoints first<br>
-<s>1. Subscribe</s><br>
-<s>2. Unsubscribe</s><br>
-<s>3. Broadcast</s><br>
-<s>4. Add empty tag</s><br>
-<s>5. Add delete tag</s><br>
-<s>6. Rename title</s><br>
-<s>7. Rename owner</s><br>
-<s>8. Rename email</s><br>
-<s>9. Rename password</s><br>
-<s>10. Delete newsletter</s>
-<br><br>
+### 9. Create a React Typescript frontend for the above API
+- Setup React Typescript
+- Setup one run for backend and frontend
+- Copy ConvertKit frontend for now
+- Add basic backend functions to frontend
 
-Test all easy endpoints<br>
-<s>1. Subscribe</s><br>
-<s>2. Unsubscribe</s><br>
-<s>3. Add email to tag</s><br>
-<s>4. Remove email from tag</s><br>
-<s>5. test custom newsletter email</s>
-<s>6. Broadcast, create username map</s><br>
-<s>7. Add empty tag</s><br>
-<s>8. Add delete tag</s><br>
-<s>9. Rename title</s><br>
-<s>10. Rename owner</s><br>
-<s>11. Rename email</s><br>
-<s>12. Rename password</s><br>
-<br><br>
-
-#9 Create a React Typescript frontend for above API<br>
--Setup React Typescript<br>
--Setup one run for backend and frontend<br>
--Copy ConvertKit frontend for now<br>
--Add basic backend functions to frontend<br>
-<br><br>
-
-
-#10 Create difficult functionality<br>
+### 10. Create difficult functionality
 1. Delete newsletter
-2. Add scheduled e-mail<br>
-3. Save and write email MIME<br>
+2. Add scheduled e-mail
+3. Save and write email MIME
 4. Add/update course
-<br><br>
 
-#11: Create automation backend<br>
--Send scheduled e-mails noon<br>
--Check daily course e-mails midnight<br>
--Courses follow document stages<br><br>
+### 11: Create automation backend
+- Send scheduled e-mails at noon
+- Check daily course e-mails at midnight
+- Courses follow document stages
 
-#12 Update to latest<br>
--Update to latest Gradle<br>
--Update to latest Spring boot and Java 21<br>
--Create email list exporter for other services<br>
--Create backup system<br>
+### 12 Update to latest
+- Update to the latest Gradle
+- Update to the latest Spring Boot and Java 21
+- Create email list exporter for other services
+- Create a backup system
